@@ -6,16 +6,17 @@ import java.net.Socket;
 
 public class PP_Server {
 
-    public static void main(String[] args) {
-        int puerto = 2300;
+    public static void main(String[] args) throws IOException{
+        int puerto = 9300;
         try {
-            ServerSocket serverSock = new ServerSocket(puerto);
-            Socket sock = serverSock.accept();
+            ServerSocket server = new ServerSocket(puerto);
+            Socket sock = server.accept();
+            System.out.println("Cliente en puerto: "+puerto);
         }catch (IOException e){
             System.out.println("Problemas en conectar con el cliente");
             e.printStackTrace();
         }
 
-        System.out.println("cliente conectado");
+        System.out.println("Cliente conectado");
     }
 }
