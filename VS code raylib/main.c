@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-
-#include "raylib.h"
+#include <raylib.h>
 
 typedef struct Sprite {
   Texture2D tex;
@@ -17,8 +16,8 @@ int main(void) {
   srand(time(NULL));
 
   // init
-  InitWindow(WIDTH, HEIGHT, "Clang Car Racing");
-  SetTargetFPS(30);
+  InitWindow(WIDTH, HEIGHT, "POLE POSITION");
+  SetTargetFPS(60);
   
   // creating the player
   Sprite car;
@@ -26,8 +25,8 @@ int main(void) {
   car.pos.x = WIDTH/2 - car.tex.width/2;
   car.pos.y = HEIGHT*3/5;
 
-  int car_speed = 2;
-  int dx = 4;
+  int car_speed = 4;
+  int dx = 8;
 
   // creating trees
   Texture2D ttrees = LoadTexture("res/trees.png");
@@ -64,12 +63,12 @@ int main(void) {
   
   // creating cars, randomizing positions of cars
   Texture2D tcars = LoadTexture("res/cars.png");
-  Rectangle srect_cars[6];
-  Vector2 cars_pos[6];
-  float cars_speed[6] = { 0 };
-  for(int i = 0; i < sizeof(srect_cars)/sizeof(srect_cars[0]); i++) {
+  Rectangle srect_cars[4];
+  Vector2 cars_pos[4];
+  float cars_speed[4] = { 0 };
+  for(int i = 0; i < 4; i++) {
     srect_cars[i].width = 16;
-    srect_cars[i].height = 24;
+    srect_cars[i].height = 16;
     srect_cars[i].x = i*srect_cars[i].width;
     srect_cars[i].y = 0;
     
@@ -87,8 +86,38 @@ int main(void) {
       cars_pos[i].y -= tcars.width/12;
     }
 
-    cars_speed[i] = rand()%5+6;
+    cars_speed[i] = 2;
   }
+
+  Texture2D tcars2 = LoadTexture("res/3.png");
+  Rectangle srect_cars2[2];
+  Vector2 cars_pos2[2];
+  float cars_speed2[2] = { 0 };
+  for(int i = 0; i < 2; i++) {
+    srect_cars2[i].width = 16;
+    srect_cars2[i].height = 16;
+    srect_cars2[i].x = i*srect_cars2[i].width;
+    srect_cars2[i].y = 0;
+    
+    int randnum2 = rand()%3+1;
+    if(randnum2 == 1) {
+      cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
+    } else if(randnum2 == 2) {
+      cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
+    } else {
+      cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
+    }
+
+    cars_pos2[i].y = rand()%HEIGHT;
+    if(cars_pos2[i].y + tcars2.width/12 > HEIGHT) {
+      cars_pos2[i].y -= tcars2.width/12;
+    }
+
+    cars_speed2[i] = 2;
+  }
+
+
+
 
   // dark screen
   Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
@@ -137,7 +166,7 @@ int main(void) {
       	    cars_pos[i].x = WIDTH*2/3 - WIDTH/18 - tcars.width/12;
       	  }
 
-      	  cars_speed[i] = rand()%5+6;
+      	  cars_speed[i] = 2;
         }
 	
       Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
@@ -148,9 +177,34 @@ int main(void) {
     	    vulnerable = false;
     	  }
         
-        car.pos.y -= car.tex.height-10;
+        car.pos.y += car.tex.height-10;
         }
       }
+            for(int i = 0; i < sizeof(cars_pos2)/sizeof(cars_pos2[0]); i++) {
+            cars_pos2[i].y += cars_speed2[i];
+
+            if(cars_pos2[i].y > HEIGHT) {
+              cars_pos2[i].y = -tcars2.height;
+
+              int randnum2 = rand()%3+1;
+              if(randnum2 == 1) {
+                cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
+              } else if(randnum2 == 2) {
+                cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
+              } else {
+                cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
+              }
+
+              cars_speed2[i] = 2;
+            }
+      
+          Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
+          Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
+          if(CheckCollisionRecs(rec1, rec3)) {
+            car.pos.y -= car.tex.height-10;
+            }
+          }
+
 
       if(!vulnerable) {
       	vulnerable_time += GetFrameTime();
@@ -200,8 +254,11 @@ int main(void) {
       DrawTexture(car.tex, car.pos.x, car.pos.y, WHITE);
     }
 
-    for(int i = 0; i < sizeof(srect_cars)/sizeof(srect_cars[0]); i++) {
+    for(int i = 0; i < 4; i++) {
       DrawTextureRec(tcars, srect_cars[i], cars_pos[i], WHITE);
+    }
+    for(int i = 0; i < 2; i++) {
+      DrawTextureRec(tcars2, srect_cars2[i], cars_pos2[i], WHITE);
     }
 
     for(int i = 0; i < trees_num; i++) {
