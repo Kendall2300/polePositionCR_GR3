@@ -25,32 +25,7 @@ int main(){
         exit(1);
     }
     printf("[++]Conectado al servidor \n");
-
+    printf("Client: \t");
+    scanf("%s",&buffer[0]);
+    send(clientSocket, buffer,strlen(buffer),0);
 }
-
-/*int main(){
-    char *ip = "127.0.0.1";
-    int port = 9300;
-
-    int sock;
-    struct sockaddr_in addr;
-    socklen_t addr_size;
-    char buffer[1024];
-    int n;
-
-    sock=socket(AF_INET,SOCK_STREAM,0);
-    if(sock<0){
-        perror("[-]Socket error");
-        exit(1);
-    }
-    printf("[+]TCP server socket created.\n");
-    
-    memset(&addr, "\0", sizeof(addr));
-    addr.sin_family=AF_INET;
-    addr.sin_port=port;
-    addr.sin_addr.s_addr=inet_addr(ip);
-
-    connect(sock,(struct sockaddr*)&addr, sizeof(addr));
-
-    printf("Conectado al servidor \n");
-}*/
