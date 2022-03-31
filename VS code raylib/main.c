@@ -9,6 +9,18 @@ typedef struct Sprite {
   Vector2 pos;
 } Sprite;
 
+typedef struct Shoot
+{
+    Rectangle rect;
+    Vector2 speed;
+    bool active;
+    Color color;
+} Shoot;
+
+#define NUM_SHOOTS 50
+static int shootRate;
+static Shoot shoot[NUM_SHOOTS];
+
 int main(void) {
   const int WIDTH = 480;
   const int HEIGHT = 640;
@@ -27,6 +39,20 @@ int main(void) {
 
   int car_speed = 4;
   int dx = 8;
+
+
+  //
+  for (int i = 0; i < NUM_SHOOTS; i++)
+  {
+    shoot[i].rect.x = car.pos.x;
+    shoot[i].rect.y = car.pos.y + HEIGHT / 4;
+    shoot[i].rect.width = 5;
+    shoot[i].rect.height = 10;
+    shoot[i].speed.x = 0;
+    shoot[i].speed.y = -10;
+    shoot[i].active = false;
+    shoot[i].color = MAROON;
+  }
 
   // creating trees
   Texture2D ttrees = LoadTexture("res/trees.png");
@@ -122,7 +148,7 @@ int main(void) {
   // dark screen
   Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
-  int lives = 9;
+  int lives = 3;
   int score = 0;
   double time = 0;
   double vulnerable_time = 0;
@@ -141,6 +167,32 @@ int main(void) {
       } else if(IsKeyDown(KEY_D) || IsKeyDown(KEY_DOWN)) {
         car.pos.y += car_speed;
       }
+
+          if (IsKeyDown(KEY_SPACE))
+    {
+
+        shootRate += 5;
+
+    for (int i = 0; i < NUM_SHOOTS; i++)
+        {
+            if (!shoot[i].active && shootRate % 40 == 0)
+            {
+                
+                shoot[i].rect.x = car.pos.x;
+                shoot[i].rect.y = car.pos.y - car.tex.height-1;
+                shoot[i].active = true;
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < NUM_SHOOTS; i++)
+    {
+        if (shoot[i].active)
+        {
+            // Movement
+            shoot[i].rect.y += shoot[i].speed.y;
+        }
+    }
 	
       // update
       for(int i = 0; i < trees_num; i++) {
@@ -206,6 +258,8 @@ int main(void) {
           }
 
 
+
+
       if(!vulnerable) {
       	vulnerable_time += GetFrameTime();
         if(vulnerable_time > 1) {
@@ -259,6 +313,11 @@ int main(void) {
     }
     for(int i = 0; i < 2; i++) {
       DrawTextureRec(tcars2, srect_cars2[i], cars_pos2[i], WHITE);
+    }
+        for (int i = 0; i < NUM_SHOOTS; i++)
+    {
+        if (shoot[i].active)
+            DrawRectangleRec(shoot[i].rect, shoot[i].color);
     }
 
     for(int i = 0; i < trees_num; i++) {
