@@ -36,8 +36,14 @@ int main(void) {
   car.tex = LoadTexture("res/car.png");
   car.pos.x = WIDTH/2 - car.tex.width/2;
   car.pos.y = HEIGHT*3/5;
-
   int car_speed = 4;
+
+  Sprite car2;
+  car2.tex = LoadTexture("res/car.png");
+  car2.pos.x = WIDTH/2 - car2.tex.width/2;
+  car2.pos.y = HEIGHT*3/5;
+  int car2_speed = 4;
+
   int dx = 8;
 
 
@@ -158,41 +164,45 @@ int main(void) {
   while(!WindowShouldClose()){
     if(!gameOver) {
       // process events
-      if(IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
+      if(IsKeyDown(KEY_LEFT)) {
         car.pos.x -= car_speed;
-      } else if(IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
+      } else if(IsKeyDown(KEY_RIGHT)) {
         car.pos.x += car_speed;
-      } else if(IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
+      } else if(IsKeyDown(KEY_UP)) {
         car.pos.y -= car_speed;
-      } else if(IsKeyDown(KEY_D) || IsKeyDown(KEY_DOWN)) {
+      } else if(IsKeyDown(KEY_DOWN)) {
         car.pos.y += car_speed;
       }
+      if(IsKeyDown(KEY_A)) {
+        car2.pos.x -= car2_speed;
+      } else if(IsKeyDown(KEY_D)) {
+        car2.pos.x += car2_speed;
+      } else if(IsKeyDown(KEY_W)) {
+        car2.pos.y -= car2_speed;
+      } else if(IsKeyDown(KEY_D)) {
+        car2.pos.y += car2_speed;
+      }
 
-          if (IsKeyDown(KEY_SPACE))
-    {
-
-        shootRate += 5;
-
-    for (int i = 0; i < NUM_SHOOTS; i++)
+      if (IsKeyDown(KEY_SPACE))
+      { shootRate += 5;
+        for (int i = 0; i < NUM_SHOOTS; i++)
         {
-            if (!shoot[i].active && shootRate % 40 == 0)
-            {
-                
-                shoot[i].rect.x = car.pos.x;
-                shoot[i].rect.y = car.pos.y - car.tex.height-1;
-                shoot[i].active = true;
-                break;
-            }
+          if (!shoot[i].active && shootRate % 40 == 0)
+          {    
+            shoot[i].rect.x = car.pos.x;
+            shoot[i].rect.y = car.pos.y - car.tex.height-1;
+            shoot[i].active = true;
+            break;
+          }
         }
-    }
-    for (int i = 0; i < NUM_SHOOTS; i++)
-    {
+      }
+      for (int i = 0; i < NUM_SHOOTS; i++)
+      {
         if (shoot[i].active)
         {
-            // Movement
-            shoot[i].rect.y += shoot[i].speed.y;
+          shoot[i].rect.y += shoot[i].speed.y;
         }
-    }
+      }
 	
       // update
       for(int i = 0; i < trees_num; i++) {
@@ -205,10 +215,8 @@ int main(void) {
 
       for(int i = 0; i < sizeof(cars_pos)/sizeof(cars_pos[0]); i++) {
         cars_pos[i].y += cars_speed[i];
-
       	if(cars_pos[i].y > HEIGHT) {
       	  cars_pos[i].y = -tcars.height;
-
       	  int randnum = rand()%3+1;
       	  if(randnum == 1) {
       	    cars_pos[i].x = WIDTH/3 + WIDTH/18 - tcars.width/12;
@@ -217,10 +225,8 @@ int main(void) {
       	  } else {
       	    cars_pos[i].x = WIDTH*2/3 - WIDTH/18 - tcars.width/12;
       	  }
-
       	  cars_speed[i] = 2;
         }
-	
       Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
       Rectangle rec2 = { cars_pos[i].x, cars_pos[i].y, tcars.width/6, tcars.height };
       if(CheckCollisionRecs(rec1, rec2)) {
@@ -228,34 +234,33 @@ int main(void) {
     	    lives -= 1;
     	    vulnerable = false;
     	  }
-        
         car.pos.y += car.tex.height-10;
         }
       }
-            for(int i = 0; i < sizeof(cars_pos2)/sizeof(cars_pos2[0]); i++) {
-            cars_pos2[i].y += cars_speed2[i];
-
-            if(cars_pos2[i].y > HEIGHT) {
-              cars_pos2[i].y = -tcars2.height;
-
-              int randnum2 = rand()%3+1;
-              if(randnum2 == 1) {
-                cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
-              } else if(randnum2 == 2) {
-                cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
-              } else {
-                cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
-              }
-
-              cars_speed2[i] = 2;
-            }
-      
-          Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
-          Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
-          if(CheckCollisionRecs(rec1, rec3)) {
-            car.pos.y -= car.tex.height-10;
-            }
+            
+            
+      for(int i = 0; i < sizeof(cars_pos2)/sizeof(cars_pos2[0]); i++) {
+        cars_pos2[i].y += cars_speed2[i];
+        if(cars_pos2[i].y > HEIGHT) {
+          cars_pos2[i].y = -tcars2.height;
+          int randnum2 = rand()%3+1;
+          if(randnum2 == 1) {
+            cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
+          } 
+          else if(randnum2 == 2) {
+            cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
+          } 
+          else {
+            cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
           }
+          cars_speed2[i] = 2;
+          }
+      Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
+      Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
+      if(CheckCollisionRecs(rec1, rec3)) {
+        car.pos.y -= car.tex.height-10;
+        }
+      }
 
 
 
@@ -306,6 +311,12 @@ int main(void) {
       DrawTexture(car.tex, car.pos.x, car.pos.y, col);
     } else {
       DrawTexture(car.tex, car.pos.x, car.pos.y, WHITE);
+    }
+    if(!vulnerable) {
+      Color col = { 0, 0, 0, 100 };
+      DrawTexture(car2.tex, car2.pos.x, car2.pos.y, col);
+    } else {
+      DrawTexture(car2.tex, car2.pos.x, car2.pos.y, WHITE);
     }
 
     for(int i = 0; i < 4; i++) {
