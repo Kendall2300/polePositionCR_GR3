@@ -44,7 +44,7 @@ int main(void) {
   car2.pos.y = HEIGHT*3/5;
   int car2_speed = 4;
 
-  int dx = 8;
+  int dx = 4;
 
 
   //
@@ -157,10 +157,10 @@ int main(void) {
   int lives = 3;
   int score = 0;
   double time = 0;
-  double vulnerable_time = 0;
+  double vulnerable_time, no_turbo_time = 0;
   bool gameOver = false;
   bool gameWon = false;
-  bool vulnerable = true;
+  bool vulnerable, no_turbo = true;
   while(!WindowShouldClose()){
     if(!gameOver) {
       // process events
@@ -168,10 +168,8 @@ int main(void) {
         car.pos.x -= car_speed;
       } else if(IsKeyDown(KEY_RIGHT)) {
         car.pos.x += car_speed;
-      } else if(IsKeyDown(KEY_UP)) {
-        car.pos.y -= car_speed;
       } else if(IsKeyDown(KEY_DOWN)) {
-        car.pos.y += car_speed;
+        car_speed = dx/2;
       }
       if(IsKeyDown(KEY_A)) {
         car2.pos.x -= car2_speed;
@@ -179,8 +177,8 @@ int main(void) {
         car2.pos.x += car2_speed;
       } else if(IsKeyDown(KEY_W)) {
         car2.pos.y -= car2_speed;
-      } else if(IsKeyDown(KEY_D)) {
-        car2.pos.y += car2_speed;
+      } else if(IsKeyDown(KEY_S)) {
+        car2_speed = dx/2;
       }
 
       if (IsKeyDown(KEY_SPACE))
@@ -214,7 +212,7 @@ int main(void) {
       }
 
       for(int i = 0; i < sizeof(cars_pos)/sizeof(cars_pos[0]); i++) {
-        cars_pos[i].y += cars_speed[i];
+        cars_pos[i].y += car_speed;
       	if(cars_pos[i].y > HEIGHT) {
       	  cars_pos[i].y = -tcars.height;
       	  int randnum = rand()%3+1;
@@ -234,13 +232,13 @@ int main(void) {
     	    lives -= 1;
     	    vulnerable = false;
     	  }
-        car.pos.y += car.tex.height-10;
+        
         }
       }
             
             
       for(int i = 0; i < sizeof(cars_pos2)/sizeof(cars_pos2[0]); i++) {
-        cars_pos2[i].y += cars_speed2[i];
+        cars_pos2[i].y += car_speed;
         if(cars_pos2[i].y > HEIGHT) {
           cars_pos2[i].y = -tcars2.height;
           int randnum2 = rand()%3+1;
@@ -258,13 +256,16 @@ int main(void) {
       Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
       Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
       if(CheckCollisionRecs(rec1, rec3)) {
-        car.pos.y -= car.tex.height-10;
+        if(no_turbo) {
+    	    no_turbo = false;
+    	  }
+
         }
       }
 
 
 
-
+      
       if(!vulnerable) {
       	vulnerable_time += GetFrameTime();
         if(vulnerable_time > 1) {
@@ -272,14 +273,23 @@ int main(void) {
           vulnerable_time = 0;
       	}
       }
+      if(!no_turbo) {
+      	no_turbo_time += GetFrameTime();
+        if(no_turbo_time > 1) {
+          no_turbo = true;
+          no_turbo_time = 0;
+      	}
+      }
+
 
       if(lives < 0) {
         gameOver = true;
       }
     	
       if(car.pos.x < WIDTH/3 || car.pos.x + car.tex.width > WIDTH*2/3) {
-        car_speed = dx/2;
-      } else {
+        car_speed=dx/2;
+      }     
+      else {
         car_speed = dx;
       }
 
@@ -309,9 +319,14 @@ int main(void) {
     if(!vulnerable) {
       Color col = { 0, 0, 0, 100 };
       DrawTexture(car.tex, car.pos.x, car.pos.y, col);
+      car_speed = dx/2;
     } else {
       DrawTexture(car.tex, car.pos.x, car.pos.y, WHITE);
     }
+    if(!no_turbo) {
+      
+      car_speed = dx*2;
+    } 
     if(!vulnerable) {
       Color col = { 0, 0, 0, 100 };
       DrawTexture(car2.tex, car2.pos.x, car2.pos.y, col);
