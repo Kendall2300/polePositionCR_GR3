@@ -1,30 +1,39 @@
 package TEC_PPServer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
+import TEC_PPConection_Handler.PP_Conection_Handler;
+
+import java.io.*;
+import java.net.*;
+
 
 public class PP_Server {
+    protected int listenPort;
 
-    public static void main(String[] args) throws IOException {
-        int puerto = 9300;
-        boolean run = true;
-        while (run) {
-            try {
-                ServerSocket server = new ServerSocket(puerto);
-                Socket cliente = server.accept();
-                System.out.println("Cliente conectado en puerto: "+puerto);
-                BufferedReader entrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
-                PrintWriter salida = new PrintWriter(cliente.getOutputStream(),true);
-                String datos_recibidos = entrada.readLine();
-                System.out.println("Se recibio: "+datos_recibidos);
-            } catch (IOException e) {
-                System.out.println("Problemas en conectar con el cliente");
-                e.printStackTrace();
+    public PP_Server(int aListenPort){
+        listenPort = aListenPort;
+    }
+
+    public void acceptConections(){
+        try{
+            ServerSocket server = new ServerSocket(listenPort,5);
+            Socket incomingConnection = null;
+            while(true){
+                incomingConnection = server.accept();
+                handleConnection(incomingConnection);
             }
+        }catch (BindException error){
+            System.out.println("Incapaz de linkear al pruerto: "+listenPort);
+        }catch (IOException error2){
+            System.out.println("Incapaz de instanciar el Socket Servidor en el puerto: "+listenPort);
         }
+    }
+
+    public void handleConnection(Socket connectionToHandle){
+        new Thread(new PP_Conection_Handler(connectionToHandle)).start();
+    }
+
+    public static void main(String[] args){
+        PP_Server server = new PP_Server(9300);
+        server.acceptConections();
     }
 }
