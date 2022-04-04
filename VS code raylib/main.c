@@ -356,12 +356,28 @@ int main(void) {
       }
     }
 
+    const char *str2 = "\n";
     char scoring[12] = { " " };
     sprintf(scoring, "%d", score);
     DrawText(scoring, 10, 0, 60, WHITE);
 
     sprintf(scoring, "%d", lives);
     DrawText(scoring, WIDTH-50, 0, 60, WHITE);
+
+    const char* filename = "out.txt";
+
+    FILE* output_file = fopen(filename, "w+");
+    if (!output_file) {
+        perror("fopen");
+        exit(EXIT_FAILURE);
+    }
+
+    fwrite(scoring, 1, strlen(scoring), output_file);
+    fwrite(str2, 1, strlen(str2), output_file);
+    fwrite(scoring, 1, strlen(scoring), output_file);
+    
+
+    fclose(output_file);
 
     if(gameOver) {
       Color color = { 0, 0, 0, 180 };
