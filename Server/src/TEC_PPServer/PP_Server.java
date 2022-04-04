@@ -15,23 +15,21 @@ public class PP_Server {
 
     public void acceptConections(){
         try{
-            ServerSocket server = new ServerSocket(listenPort,5);
+            ServerSocket server = new ServerSocket(listenPort,4);
             Socket incomingConnection = null;
             while(true){
                 incomingConnection = server.accept();
                 handleConnection(incomingConnection);
             }
         }catch (BindException error){
-            System.out.println("Incapaz de linkear al pruerto: "+listenPort);
+            System.out.println("Incapaz de hacer enlazar con el pruerto: "+listenPort);
         }catch (IOException error2){
             System.out.println("Incapaz de instanciar el Socket Servidor en el puerto: "+listenPort);
         }
     }
-
     public void handleConnection(Socket connectionToHandle){
         new Thread(new PP_Conection_Handler(connectionToHandle)).start();
     }
-
     public static void main(String[] args){
         PP_Server server = new PP_Server(9300);
         server.acceptConections();
