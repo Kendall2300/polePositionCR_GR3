@@ -25,10 +25,24 @@ int main(){
         exit(1);
     }
     printf("[++]Conectado al servidor \n");
-    printf("Client: \t");
-    scanf("%s",&buffer[0]);
-    send(clientSocket, buffer,strlen(buffer),0);
-    
-    
-    printf(read(clientSocket,buffer,strlen(buffer)));
+
+    while(1){
+        printf("Client: \t");
+        scanf("%s",&buffer[0]);
+        send(clientSocket, buffer,strlen(buffer),0);
+
+
+        if(strcmp(buffer,":exit")==0){
+            close(clientSocket);
+            printf("[-]Disconnected from server.\n");
+            exit(1);
+        }
+        
+        if(recv(clientSocket,buffer,1024,0)<0){
+            printf("[-]Error recibiendo datos.\n");
+        }else{
+            printf("Server: \t%s\n",buffer);
+        }
+    }
+    return 0;
 }
