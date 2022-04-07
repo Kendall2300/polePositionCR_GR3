@@ -34,13 +34,13 @@ int main(void) {
 
     // creating the player
     Sprite car;
-    car.tex = LoadTexture("C:\\Users\\kenda\\Desktop\\TEC\\Lenguajes\\Lenguajes\\Poll_Position\\Tarea3_Pole_Position\\ClionGame\\res\\car.png");
+    car.tex = LoadTexture("..\\res\\car.png");
     car.pos.x = WIDTH/2 - car.tex.width/2;
     car.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
     Sprite car2;
-    car2.tex = LoadTexture("C:\\Users\\kenda\\Desktop\\TEC\\Lenguajes\\Lenguajes\\Poll_Position\\Tarea3_Pole_Position\\ClionGame\\res\\car.png");
+    car2.tex = LoadTexture("..\\res\\car.png");
     car2.pos.x = WIDTH/2 - car2.tex.width/2;
     car2.pos.y = HEIGHT*3/5;
     int car2_speed = 4;
@@ -62,7 +62,7 @@ int main(void) {
     }
 
     // creating trees
-    Texture2D ttrees = LoadTexture("C:\\Users\\kenda\\Desktop\\TEC\\Lenguajes\\Lenguajes\\Poll_Position\\Tarea3_Pole_Position\\ClionGame\\res\\trees.png");
+    Texture2D ttrees = LoadTexture("..\\res\\trees.png");
     Rectangle srect[3];
     for(int i = 0; i < sizeof(srect)/sizeof(srect[0]); i++) {
         srect[i].width = srect[i].height = 48;
@@ -95,7 +95,7 @@ int main(void) {
     }
 
     // creating cars, randomizing positions of cars
-    Texture2D tcars = LoadTexture("C:\\Users\\kenda\\Desktop\\TEC\\Lenguajes\\Lenguajes\\Poll_Position\\Tarea3_Pole_Position\\ClionGame\\res\\cars.png");
+    Texture2D tcars = LoadTexture("..\\res\\cars.png");
     Rectangle srect_cars[4];
     Vector2 cars_pos[4];
     float cars_speed[4] = { 0 };
@@ -122,7 +122,7 @@ int main(void) {
         cars_speed[i] = 2;
     }
 
-    Texture2D tcars2 = LoadTexture("C:\\Users\\kenda\\Desktop\\TEC\\Lenguajes\\Lenguajes\\Poll_Position\\Tarea3_Pole_Position\\ClionGame\\res\\3.png");
+    Texture2D tcars2 = LoadTexture("..\\res\\3.png");
     Rectangle srect_cars2[2];
     Vector2 cars_pos2[2];
     float cars_speed2[2] = { 0 };
