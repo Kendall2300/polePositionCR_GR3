@@ -22,7 +22,7 @@ public class PP_Conection_Handler implements Runnable {
             output = new PrintWriter(socketToHandle.getOutputStream());
 
             line = brinp.readLine();
-            //System.out.println(line);
+            System.out.println(line);
             if ((line == null) || line.equalsIgnoreCase("QUIT")){
                 socketToHandle.close();
             }else {

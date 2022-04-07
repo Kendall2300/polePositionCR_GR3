@@ -15,7 +15,8 @@ public class PP_Server {
 
     public void acceptConections(){
         try{
-            ServerSocket server = new ServerSocket(listenPort,4);
+            InetAddress addr = InetAddress.getByName("127.0.0.1");
+            ServerSocket server = new ServerSocket(listenPort,4,addr);
             Socket incomingConnection = null;
             while(true){
                 incomingConnection = server.accept();
