@@ -12,30 +12,27 @@ public class PP_Conection_Handler implements Runnable {
         socketToHandle=aSocketToHandle;
     }
     public void run(){
-        InputStream input= null;
-        BufferedReader brinp = null;
-        PrintWriter output= null;
-        String line;
-        try{
-            input = socketToHandle.getInputStream();
-            brinp = new BufferedReader(new InputStreamReader(input));
-            output = new PrintWriter(socketToHandle.getOutputStream());
+        try {
+            File archivo=new File("..\\src\\variables\\out.txt");
+            FileReader f_reader=new FileReader(archivo);
+            BufferedReader buf_reader=new BufferedReader(f_reader);
+            FileWriter fichero=new FileWriter("..\\src\\variables\\out.txt");
+            PrintWriter p_write=new PrintWriter(fichero);
+            String linea=buf_reader.readLine();
+            while(linea!=null){
+                System.out.println(linea);
+                /*if (line==escriba aqui lo que ocupa dependiendo de lo escrito por el cliente){
 
-            line = brinp.readLine();
-            System.out.println(line);
-            if ((line == null) || line.equalsIgnoreCase("QUIT")){
-                socketToHandle.close();
-            }else {
-                System.out.println(line);
-                output.println(line + "\n");
-                output.flush();
+                    escriba aqui la logica, el
+                    tuto: http://chuwiki.chuidiang.org/index.php?title=Lectura_y_Escritura_de_Ficheros_en_Java
+
+                }*/
             }
-        }catch (Exception error){
-            System.out.println(error);
-            System.out.println("Error manejando al cliente: "+error);
-            return;
+
+        }catch (FileNotFoundException error){
+            System.out.println("Ocurrio un problema, identificador: "+error);
+        } catch (IOException e) {
+            System.out.println("Problema con identificador: "+e);
         }
     }
 }
-//investigar sobre la sincronia y asincronia de datos porque si no espera a la terminacion
-//de uno de los sistemas para darrespuesta.

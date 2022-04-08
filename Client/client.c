@@ -4,7 +4,7 @@
 
 char SendBuff[512],RecvBuff[512];
 
-int main(int argc, char *argv[]){
+int main(){
 
     WSADATA wsaData;
     SOCKET conn_socket;
@@ -40,19 +40,26 @@ int main(int argc, char *argv[]){
     server.sin_family = hp->h_addrtype;
     server.sin_port = htons(9300);
 
+    if( bind(conn_socket,(struct sockaddr *)&server , sizeof(server)) < 0)
+    {
+        perror("bind failed");
+        return 1;
+    }
+
     // Nos conectamos con el servidor...
     if(connect(conn_socket,(struct sockaddr *)&server,sizeof(server))==SOCKET_ERROR){
         printf("Fallo al conectarse con el servidor\n");
         closesocket(conn_socket);
         WSACleanup();getchar();return WSAGetLastError();
     }
-    printf("Conexión establecida con: %s\n", inet_ntoa(server.sin_addr));
+    printf("Conexion establecida con: %s\n", inet_ntoa(server.sin_addr));
 
-    strcpy(SendBuff,"Hola servidor... .P");
+    strcpy(SendBuff,"Hola");
     //Enviamos y recibimos datos...
     printf("Enviando Mensaje... \n");
     send(conn_socket,SendBuff,sizeof(SendBuff),0);
     printf("Datos enviados: %s \n", SendBuff);
+    //fflush(conn_socket);
 
     printf("Recibiendo Mensaje... \n");
     recv(conn_socket,RecvBuff, sizeof(RecvBuff), 0);
