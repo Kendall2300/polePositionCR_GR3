@@ -22,7 +22,14 @@ typedef struct Shoot
 static int shootRate;
 static Shoot shoot[NUM_SHOOTS];
 
-int main(void) {
+//Sprite carP1;
+//carP1.tex = LoadTexture("..\\res\\car1.png");
+//carP1.pos.x = WIDTH/2 - car.tex.width/2;
+//carP1.pos.y = HEIGHT*3/5;
+//int car_speed = 4;
+
+
+void mainGame(char p1Dir[]){
     const int WIDTH = 480;
     const int HEIGHT = 640;
 
@@ -32,11 +39,12 @@ int main(void) {
     InitWindow(WIDTH, HEIGHT, "POLE POSITION");
     SetTargetFPS(60);
 
-    // creating the player
-    Sprite car;
-    car.tex = LoadTexture("..\\res\\car.png");
-    car.pos.x = WIDTH/2 - car.tex.width/2;
-    car.pos.y = HEIGHT*3/5;
+    // creating the players
+
+    Sprite carP1;
+    carP1.tex = LoadTexture(p1Dir);
+    carP1.pos.x = WIDTH/2 - carP1.tex.width/2;
+    carP1.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
     Sprite car2;
@@ -51,8 +59,8 @@ int main(void) {
     //
     for (int i = 0; i < NUM_SHOOTS; i++)
     {
-        shoot[i].rect.x = car.pos.x;
-        shoot[i].rect.y = car.pos.y + HEIGHT / 4;
+        shoot[i].rect.x = carP1.pos.x;
+        shoot[i].rect.y = carP1.pos.y + HEIGHT / 4;
         shoot[i].rect.width = 5;
         shoot[i].rect.height = 10;
         shoot[i].speed.x = 0;
@@ -94,7 +102,7 @@ int main(void) {
         }
     }
 
-    // creating cars, randomizing positions of cars
+    // creating items, randomizing positions of cars
     Texture2D tcars = LoadTexture("..\\res\\cars.png");
     Rectangle srect_cars[4];
     Vector2 cars_pos[4];
@@ -166,9 +174,9 @@ int main(void) {
         if(!gameOver) {
             // process events
             if(IsKeyDown(KEY_LEFT)) {
-                car.pos.x -= car_speed;
+                carP1.pos.x -= car_speed;
             } else if(IsKeyDown(KEY_RIGHT)) {
-                car.pos.x += car_speed;
+                carP1.pos.x += car_speed;
             } else if(IsKeyDown(KEY_DOWN)) {
                 car_speed = dx/2;
             }
@@ -188,8 +196,8 @@ int main(void) {
                 {
                     if (!shoot[i].active && shootRate % 40 == 0)
                     {
-                        shoot[i].rect.x = car.pos.x;
-                        shoot[i].rect.y = car.pos.y - car.tex.height-1;
+                        shoot[i].rect.x = carP1.pos.x;
+                        shoot[i].rect.y = carP1.pos.y - carP1.tex.height-1;
                         shoot[i].active = true;
                         break;
                     }
@@ -226,7 +234,7 @@ int main(void) {
                     }
                     cars_speed[i] = 2;
                 }
-                Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
+                Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
                 Rectangle rec2 = { cars_pos[i].x, cars_pos[i].y, tcars.width/6, tcars.height };
                 if(CheckCollisionRecs(rec1, rec2)) {
                     if(vulnerable) {
@@ -254,7 +262,7 @@ int main(void) {
                     }
                     cars_speed2[i] = 2;
                 }
-                Rectangle rec1 = { car.pos.x, car.pos.y, car.tex.width, car.tex.height };
+                Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
                 Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
                 if(CheckCollisionRecs(rec1, rec3)) {
                     if(no_turbo) {
@@ -287,7 +295,7 @@ int main(void) {
                 gameOver = true;
             }
 
-            if(car.pos.x < WIDTH/3 || car.pos.x + car.tex.width > WIDTH*2/3) {
+            if(carP1.pos.x < WIDTH/3 || carP1.pos.x + carP1.tex.width > WIDTH*2/3) {
                 car_speed=dx/2;
             }
             else {
@@ -319,10 +327,10 @@ int main(void) {
 
         if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
-            DrawTexture(car.tex, car.pos.x, car.pos.y, col);
+            DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, col);
             car_speed = dx/2;
         } else {
-            DrawTexture(car.tex, car.pos.x, car.pos.y, WHITE);
+            DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
         }
         if(!no_turbo) {
 
@@ -378,6 +386,7 @@ int main(void) {
         fwrite(scoring, 1, strlen(scoring), output_file);
 
 
+
         fclose(output_file);
 
         if(gameOver) {
@@ -395,8 +404,144 @@ int main(void) {
 
     UnloadTexture(tcars);
     UnloadTexture(ttrees);
-    UnloadTexture(car.tex);
+    UnloadTexture(carP1.tex);
     CloseWindow();
+}
 
+selectCar(){
+    const int WIDTH = 840;
+    const int HEIGHT = 480;
+
+    // init
+    InitWindow(WIDTH, HEIGHT, "POLE POSITION");
+
+    SetTargetFPS(60);
+    Sprite car1, car2, car3, car4, selectSqr;
+    car1.tex = LoadTexture("..\\res\\car1BIG.png");
+    car1.pos.x = WIDTH*1/6;
+    car1.pos.y = HEIGHT/2 - car1.tex.height/2;
+
+    car2.tex = LoadTexture("..\\res\\car2BIG.png");
+    car2.pos.x = WIDTH*2/6;
+    car2.pos.y = HEIGHT/2 - car2.tex.height/2;
+
+    car3.tex = LoadTexture("..\\res\\car3BIG.png");
+    car3.pos.x = WIDTH*3/6;
+    car3.pos.y = HEIGHT/2 - car3.tex.height/2;
+
+    car4.tex = LoadTexture("..\\res\\car4BIG.png");
+    car4.pos.x = WIDTH*4/6;
+    car4.pos.y = HEIGHT/2 - car4.tex.height/2;
+
+    selectSqr.tex = LoadTexture("..\\res\\selecting.png");
+    selectSqr.pos.x = WIDTH*1/6;
+    selectSqr.pos.y = HEIGHT/2 - selectSqr.tex.height/2;
+
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+
+        if (IsKeyPressed(KEY_LEFT) || IsGestureDetected(GESTURE_TAP))
+        {
+            if(selectSqr.pos.x == WIDTH*1/6){
+                selectSqr.pos.x = WIDTH*1/6;
+            }
+            else {
+                selectSqr.pos.x -= WIDTH * 1 / 6;
+            }
+        }
+
+        if (IsKeyPressed(KEY_RIGHT) || IsGestureDetected(GESTURE_TAP))
+        {
+
+            if(selectSqr.pos.x == WIDTH*4/6){
+                selectSqr.pos.x = WIDTH*4/6;
+            }
+            else {
+                selectSqr.pos.x += WIDTH*1/6;
+            }
+        }
+
+        if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
+        {
+            if(selectSqr.pos.x == WIDTH*1/6){
+                UnloadTexture(car1.tex);
+                UnloadTexture(car2.tex);
+                UnloadTexture(car3.tex);
+                UnloadTexture(car4.tex);
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                mainGame("..\\res\\car1.png");
+            }
+            if(selectSqr.pos.x == WIDTH*2/6){
+                UnloadTexture(car1.tex);
+                UnloadTexture(car2.tex);
+                UnloadTexture(car3.tex);
+                UnloadTexture(car4.tex);
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                mainGame("..\\res\\car2.png");
+            }
+            if(selectSqr.pos.x == WIDTH*3/6){
+                UnloadTexture(car1.tex);
+                UnloadTexture(car2.tex);
+                UnloadTexture(car3.tex);
+                UnloadTexture(car4.tex);
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                mainGame("..\\res\\car3.png");
+            }
+            if(selectSqr.pos.x == WIDTH*4/6){
+                UnloadTexture(car1.tex);
+                UnloadTexture(car2.tex);
+                UnloadTexture(car3.tex);
+                UnloadTexture(car4.tex);
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                mainGame("..\\res\\car4.png");
+            }
+        }
+
+
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+
+        DrawRectangle(0, 0, WIDTH, HEIGHT, DARKPURPLE);
+        DrawText("ELIJA UN AUTO", 20, 20, 40, LIGHTGRAY);
+        //DrawText("BRRRRUUUUUUUUUHHHH", 290, 220, 20, BLUE);
+
+        DrawTexture(car1.tex, car1.pos.x, car1.pos.y, WHITE);
+        DrawTexture(car2.tex, car2.pos.x, car2.pos.y, WHITE);
+        DrawTexture(car3.tex, car3.pos.x, car3.pos.y, WHITE);
+        DrawTexture(car4.tex, car4.pos.x, car4.pos.y, WHITE);
+
+        DrawTexture(selectSqr.tex, selectSqr.pos.x, selectSqr.pos.y, WHITE);
+
+        EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+
+    UnloadTexture(car1.tex);
+    UnloadTexture(car2.tex);
+    UnloadTexture(car3.tex);
+    UnloadTexture(car4.tex);
+    UnloadTexture(selectSqr.tex);
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
+}
+
+int main(void) {
+
+    selectCar();
     return 0;
 }
