@@ -4,6 +4,8 @@
 #include <time.h>
 #include <raylib.h>
 
+#define LIMITE 50
+
 typedef struct Sprite {
   Texture2D tex;
   Vector2 pos;
@@ -364,20 +366,34 @@ int main(void) {
     sprintf(scoring, "%d", lives);
     DrawText(scoring, WIDTH-50, 0, 60, WHITE);
 
-    const char* filename = "out.txt";
+    char b[12] = { " " };
+    sprintf(b, "%d", lives);
 
+    const char* filename = "out.txt";
     FILE* output_file = fopen(filename, "w+");
     if (!output_file) {
         perror("fopen");
         exit(EXIT_FAILURE);
     }
-
-    fwrite(scoring, 1, strlen(scoring), output_file);
+    fwrite(b, 1, strlen(b), output_file);
     fwrite(str2, 1, strlen(str2), output_file);
-    fwrite(scoring, 1, strlen(scoring), output_file);
-    
-
+    fwrite(b, 1, strlen(b), output_file);
     fclose(output_file);
+
+
+    char cadena1 [LIMITE];     char cadena2 [LIMITE];
+    char cadena3 [LIMITE];     char cadena4 [LIMITE];
+    FILE* fichero;
+    fichero = fopen("int.txt", "rt");
+    fgets (cadena1, LIMITE, fichero);
+    fgets (cadena2, LIMITE, fichero);
+    fgets (cadena3, LIMITE, fichero);
+    fgets (cadena4, LIMITE, fichero);
+    fclose(fichero);
+    puts ("Extraido de fichero lo siguiente: \n");
+    puts (cadena1); puts (cadena2); puts (cadena3);puts (cadena4);
+    puts("Proceso completado");
+    
 
     if(gameOver) {
       Color color = { 0, 0, 0, 180 };

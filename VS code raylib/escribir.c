@@ -1,26 +1,21 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-
-
-
-
-const char *str = "Temporary string to be written to file!";
-const char *str2 = "\n";
-
-int main(void) {
-    const char* filename = "out.txt";
-
-    FILE* output_file = fopen(filename, "w+");
-    if (!output_file) {
-        perror("fopen");
-        exit(EXIT_FAILURE);
-    }
-
-    fwrite(str, 1, strlen(str), output_file);
-    fwrite(str2, 1, strlen(str2), output_file);
-    fwrite(str, 1, strlen(str), output_file);
-    
-
-    fclose(output_file);
-    exit(EXIT_SUCCESS);
+#include <string.h>
+#define LIMITE 50
+// Ejemplo curso C aprenderaprogramar.com
+int main() {
+    char cadena1 [LIMITE];     char cadena2 [LIMITE];
+    char cadena3 [LIMITE];     char cadena4 [LIMITE];
+    FILE* fichero;
+    fichero = fopen("out.txt", "rt");
+    fgets (cadena1, LIMITE, fichero);
+    fgets (cadena2, LIMITE, fichero);
+    fgets (cadena3, LIMITE, fichero);
+    fgets (cadena4, LIMITE, fichero);
+    fclose(fichero);
+    puts ("Extraido de fichero lo siguiente: \n");
+    puts (cadena1); puts (cadena2); puts (cadena3);puts (cadena4);
+    puts("Proceso completado");
+    return 0;
 }
