@@ -1,3 +1,0 @@
-C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate.dir
-C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/edit_cache.dir
-C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/rebuild_cache.dir
