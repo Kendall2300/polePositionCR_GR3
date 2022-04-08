@@ -1,0 +1,3 @@
+C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate.dir
+C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/rebuild_cache.dir

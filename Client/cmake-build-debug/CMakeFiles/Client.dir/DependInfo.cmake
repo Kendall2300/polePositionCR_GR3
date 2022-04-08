@@ -9,11 +9,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/client.c" "CMakeFiles/Client.dir/client.c.obj" "gcc" "CMakeFiles/Client.dir/client.c.obj.d"
-  "C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/server.c" "CMakeFiles/Client.dir/server.c.obj" "gcc" "CMakeFiles/Client.dir/server.c.obj.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/cmake-build-debug/_deps/raylib-build/raylib/CMakeFiles/raylib.dir/DependInfo.cmake"
+  "C:/Users/kenda/Desktop/TEC/Lenguajes/Lenguajes/Poll_Position/Tarea3_Pole_Position/Client/cmake-build-debug/_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

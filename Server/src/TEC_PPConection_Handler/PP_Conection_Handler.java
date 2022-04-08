@@ -37,27 +37,5 @@ public class PP_Conection_Handler implements Runnable {
         }
     }
 }
-
-
-            //
-
-            /*
-            PrintWriter streamWriter = new PrintWriter(socketToHandle.getOutputStream());
-            BufferedReader streamReader = new BufferedReader((new InputStreamReader(socketToHandle.getInputStream())));
-
-            String fileToRead = streamReader.readLine();
-            BufferedReader fileReader = new BufferedReader(new FileReader("src/Variables/"+fileToRead+".txt"));
-
-            String line = null;
-            while ((line = fileReader.readLine()) != null){
-                streamWriter.println(line);
-                System.out.println(line);
-            }
-
-            fileReader.close();
-            streamWriter.close();
-            streamReader.close();
-            */
-
 //investigar sobre la sincronia y asincronia de datos porque si no espera a la terminacion
 //de uno de los sistemas para darrespuesta.

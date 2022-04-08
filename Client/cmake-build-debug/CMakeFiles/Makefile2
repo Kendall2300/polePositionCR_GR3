@@ -63,29 +63,94 @@ CMAKE_BINARY_DIR = C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\
 
 # The main recursive "all" target.
 all: CMakeFiles/Client.dir/all
+all: _deps/raylib-build/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: _deps/raylib-build/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Client.dir/clean
+clean: _deps/raylib-build/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory _deps/raylib-build
+
+# Recursive "all" directory target.
+_deps/raylib-build/all: _deps/raylib-build/raylib/all
+.PHONY : _deps/raylib-build/all
+
+# Recursive "preinstall" directory target.
+_deps/raylib-build/preinstall: _deps/raylib-build/raylib/preinstall
+.PHONY : _deps/raylib-build/preinstall
+
+# Recursive "clean" directory target.
+_deps/raylib-build/clean: _deps/raylib-build/raylib/clean
+.PHONY : _deps/raylib-build/clean
+
+#=============================================================================
+# Directory level rules for directory _deps/raylib-build/raylib
+
+# Recursive "all" directory target.
+_deps/raylib-build/raylib/all: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
+_deps/raylib-build/raylib/all: _deps/raylib-build/raylib/external/glfw/all
+.PHONY : _deps/raylib-build/raylib/all
+
+# Recursive "preinstall" directory target.
+_deps/raylib-build/raylib/preinstall: _deps/raylib-build/raylib/external/glfw/preinstall
+.PHONY : _deps/raylib-build/raylib/preinstall
+
+# Recursive "clean" directory target.
+_deps/raylib-build/raylib/clean: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean
+_deps/raylib-build/raylib/clean: _deps/raylib-build/raylib/external/glfw/clean
+.PHONY : _deps/raylib-build/raylib/clean
+
+#=============================================================================
+# Directory level rules for directory _deps/raylib-build/raylib/external/glfw
+
+# Recursive "all" directory target.
+_deps/raylib-build/raylib/external/glfw/all: _deps/raylib-build/raylib/external/glfw/src/all
+.PHONY : _deps/raylib-build/raylib/external/glfw/all
+
+# Recursive "preinstall" directory target.
+_deps/raylib-build/raylib/external/glfw/preinstall: _deps/raylib-build/raylib/external/glfw/src/preinstall
+.PHONY : _deps/raylib-build/raylib/external/glfw/preinstall
+
+# Recursive "clean" directory target.
+_deps/raylib-build/raylib/external/glfw/clean: _deps/raylib-build/raylib/external/glfw/src/clean
+.PHONY : _deps/raylib-build/raylib/external/glfw/clean
+
+#=============================================================================
+# Directory level rules for directory _deps/raylib-build/raylib/external/glfw/src
+
+# Recursive "all" directory target.
+_deps/raylib-build/raylib/external/glfw/src/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/all
+
+# Recursive "preinstall" directory target.
+_deps/raylib-build/raylib/external/glfw/src/preinstall:
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/preinstall
+
+# Recursive "clean" directory target.
+_deps/raylib-build/raylib/external/glfw/src/clean: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Client.dir
 
 # All Build rule for target.
-CMakeFiles/Client.dir/all:
+CMakeFiles/Client.dir/all: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
+CMakeFiles/Client.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Client.dir\build.make CMakeFiles/Client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Client.dir\build.make CMakeFiles/Client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target Client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Client"
 .PHONY : CMakeFiles/Client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Client.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/Client.dir/rule
@@ -98,6 +163,58 @@ Client: CMakeFiles/Client.dir/rule
 CMakeFiles/Client.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Client.dir\build.make CMakeFiles/Client.dir/clean
 .PHONY : CMakeFiles/Client.dir/clean
+
+#=============================================================================
+# Target rules for target _deps/raylib-build/raylib/CMakeFiles/raylib.dir
+
+# All Build rule for target.
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/all: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/depend
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles --progress-num=19,20,21,22,23,24,25,26 "Built target raylib"
+.PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
+
+# Build rule for subdir invocation for target.
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 24
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 0
+.PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rule
+
+# Convenience name for target.
+raylib: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rule
+.PHONY : raylib
+
+# clean rule for target.
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean
+.PHONY : _deps/raylib-build/raylib/CMakeFiles/raylib.dir/clean
+
+#=============================================================================
+# Target rules for target _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir
+
+# All Build rule for target.
+_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all:
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\external\glfw\src\CMakeFiles\glfw.dir\build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/depend
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\external\glfw\src\CMakeFiles\glfw.dir\build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18 "Built target glfw"
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+
+# Build rule for subdir invocation for target.
+_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 16
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\kenda\Desktop\TEC\Lenguajes\Lenguajes\Poll_Position\Tarea3_Pole_Position\Client\cmake-build-debug\CMakeFiles 0
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/rule
+
+# Convenience name for target.
+glfw: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/rule
+.PHONY : glfw
+
+# clean rule for target.
+_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean:
+	$(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\external\glfw\src\CMakeFiles\glfw.dir\build.make _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean
+.PHONY : _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
