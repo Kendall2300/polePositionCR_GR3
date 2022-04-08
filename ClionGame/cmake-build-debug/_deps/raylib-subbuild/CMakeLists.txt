@@ -14,8 +14,8 @@ project(raylib-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(raylib-populate
                      "UPDATE_DISCONNECTED" "False" "URL" "https://github.com/raysan5/raylib/archive/refs/tags/4.0.0.tar.gz"
-                    SOURCE_DIR          "C:/Users/daxr2/Documents/TEC DOCS/SEMESTRE V/LENGUAJES Y COMPILADORES/LENGUAJES/PROGRAS/Tarea3_Pole_PositionGit/ClionGame/cmake-build-debug/_deps/raylib-src"
-                    BINARY_DIR          "C:/Users/daxr2/Documents/TEC DOCS/SEMESTRE V/LENGUAJES Y COMPILADORES/LENGUAJES/PROGRAS/Tarea3_Pole_PositionGit/ClionGame/cmake-build-debug/_deps/raylib-build"
+                    SOURCE_DIR          "C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-src"
+                    BINARY_DIR          "C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

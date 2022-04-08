@@ -1,7 +1,7 @@
 # Make file names absolute:
 #
-get_filename_component(filename "C:/Users/daxr2/Documents/TEC DOCS/SEMESTRE V/LENGUAJES Y COMPILADORES/LENGUAJES/PROGRAS/Tarea3_Pole_PositionGit/ClionGame/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/4.0.0.tar.gz" ABSOLUTE)
-get_filename_component(directory "C:/Users/daxr2/Documents/TEC DOCS/SEMESTRE V/LENGUAJES Y COMPILADORES/LENGUAJES/PROGRAS/Tarea3_Pole_PositionGit/ClionGame/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
+get_filename_component(filename "C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/4.0.0.tar.gz" ABSOLUTE)
+get_filename_component(directory "C:/Users/gaboc/OneDrive - Estudiantes ITCR/Documentos/GitHub/Tarea3_Poll_Position/ClionGame/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'
