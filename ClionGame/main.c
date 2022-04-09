@@ -22,6 +22,12 @@ typedef struct Shoot
 static int shootRate;
 static Shoot shoot[NUM_SHOOTS];
 
+//Sprite carP1;
+//carP1.tex = LoadTexture("..\\res\\car1.png");
+//carP1.pos.x = WIDTH/2 - car.tex.width/2;
+//carP1.pos.y = HEIGHT*3/5;
+//int car_speed = 4;
+
 
 void mainGame(char p1Dir[]){
     const int WIDTH = 480;
@@ -37,19 +43,20 @@ void mainGame(char p1Dir[]){
 
     Sprite carP1;
     carP1.tex = LoadTexture(p1Dir);
-    carP1.pos.x = WIDTH/2 - carP1.tex.width/2-50;
+    carP1.pos.x = WIDTH/2 - carP1.tex.width/2;
     carP1.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
-    Sprite carP2;
-    carP2.tex = LoadTexture("..\\res\\car.png");
-    carP2.pos.x = WIDTH/2 - carP2.tex.width/2+50;
-    carP2.pos.y = HEIGHT*3/5;
+    Sprite car2;
+    car2.tex = LoadTexture("..\\res\\car.png");
+    car2.pos.x = WIDTH/2 - car2.tex.width/2;
+    car2.pos.y = HEIGHT*3/5;
     int car2_speed = 4;
 
     int dx = 4;
 
 
+    //
     for (int i = 0; i < NUM_SHOOTS; i++)
     {
         shoot[i].rect.x = carP1.pos.x;
@@ -95,86 +102,59 @@ void mainGame(char p1Dir[]){
         }
     }
 
-    // creating items, randomizing positions of items
-    Texture2D thole = LoadTexture("..\\res\\cars.png");
-    Rectangle srect_hole[2];
-    Vector2 hole_pos[2];
-    float hole_speed[2] = { 0 };
-    for(int i = 0; i < 2; i++) {
-        srect_hole[i].width = 16;
-        srect_hole[i].height = 16;
-        srect_hole[i].x = i*srect_hole[i].width;
-        srect_hole[i].y = 0;
+    // creating items, randomizing positions of cars
+    Texture2D tcars = LoadTexture("..\\res\\cars.png");
+    Rectangle srect_cars[4];
+    Vector2 cars_pos[4];
+    float cars_speed[4] = { 0 };
+    for(int i = 0; i < 4; i++) {
+        srect_cars[i].width = 16;
+        srect_cars[i].height = 16;
+        srect_cars[i].x = i*srect_cars[i].width;
+        srect_cars[i].y = 0;
 
         int randnum = rand()%3+1;
         if(randnum == 1) {
-            hole_pos[i].x = WIDTH/3 + WIDTH/18 - thole.width/12;
+            cars_pos[i].x = WIDTH/3 + WIDTH/18 - tcars.width/12;
         } else if(randnum == 2) {
-            hole_pos[i].x = WIDTH/2 - thole.width/12;
+            cars_pos[i].x = WIDTH/2 - tcars.width/12;
         } else {
-            hole_pos[i].x = WIDTH*2/3 - WIDTH/18 - thole.width/12;
+            cars_pos[i].x = WIDTH*2/3 - WIDTH/18 - tcars.width/12;
         }
 
-        hole_pos[i].y = rand()%HEIGHT;
-        if(hole_pos[i].y + thole.width/12 > HEIGHT) {
-            hole_pos[i].y -= thole.width/12;
+        cars_pos[i].y = rand()%HEIGHT;
+        if(cars_pos[i].y + tcars.width/12 > HEIGHT) {
+            cars_pos[i].y -= tcars.width/12;
         }
 
-        hole_speed[i] = 2;
+        cars_speed[i] = 2;
     }
 
-    Texture2D tturbo = LoadTexture("..\\res\\3.png");
-    Rectangle srect_turbo[2];
-    Vector2 turbo_pos[2];
-    float turbo_speed[2] = { 0 };
+    Texture2D tcars2 = LoadTexture("..\\res\\3.png");
+    Rectangle srect_cars2[2];
+    Vector2 cars_pos2[2];
+    float cars_speed2[2] = { 0 };
     for(int i = 0; i < 2; i++) {
-        srect_turbo[i].width = 16;
-        srect_turbo[i].height = 16;
-        srect_turbo[i].x = i*srect_turbo[i].width;
-        srect_turbo[i].y = 0;
+        srect_cars2[i].width = 16;
+        srect_cars2[i].height = 16;
+        srect_cars2[i].x = i*srect_cars2[i].width;
+        srect_cars2[i].y = 0;
 
         int randnum2 = rand()%3+1;
         if(randnum2 == 1) {
-            turbo_pos[i].x = WIDTH/3 + WIDTH/18 - tturbo.width/12;
+            cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
         } else if(randnum2 == 2) {
-            turbo_pos[i].x = WIDTH/2 - tturbo.width/12;
+            cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
         } else {
-            turbo_pos[i].x = WIDTH*2/3 - WIDTH/18 - tturbo.width/12;
+            cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
         }
 
-        turbo_pos[i].y = rand()%HEIGHT;
-        if(turbo_pos[i].y + tturbo.width/12 > HEIGHT) {
-            turbo_pos[i].y -= tturbo.width/12;
+        cars_pos2[i].y = rand()%HEIGHT;
+        if(cars_pos2[i].y + tcars2.width/12 > HEIGHT) {
+            cars_pos2[i].y -= tcars2.width/12;
         }
 
-        turbo_speed[i] = 2;
-    }
-
-    Texture2D theart = LoadTexture("..\\res\\heart.png");
-    Rectangle srect_heart[1];
-    Vector2 heart_pos[1];
-    float heart_speed[1] = { 0 };
-    for(int i = 0; i < 1; i++) {
-        srect_heart[i].width = 16;
-        srect_heart[i].height = 16;
-        srect_heart[i].x = i*srect_heart[i].width;
-        srect_heart[i].y = 0;
-
-        int randnum2 = rand()%3+1;
-        if(randnum2 == 1) {
-            heart_pos[i].x = WIDTH/3 + WIDTH/18 - theart.width/12;
-        } else if(randnum2 == 2) {
-            heart_pos[i].x = WIDTH/2 - theart.width/12;
-        } else {
-            heart_pos[i].x = WIDTH*2/3 - WIDTH/18 - theart.width/12;
-        }
-
-        heart_pos[i].y = rand()%HEIGHT;
-        if(heart_pos[i].y + theart.width/12 > HEIGHT) {
-            heart_pos[i].y -= theart.width/12;
-        }
-
-        heart_speed[i] = 2;
+        cars_speed2[i] = 2;
     }
 
 
@@ -186,10 +166,10 @@ void mainGame(char p1Dir[]){
     int lives = 3;
     int score = 0;
     double time = 0;
-    double vulnerable_time, no_turbo_time, livesDowntimeTime = 0;
+    double vulnerable_time, no_turbo_time = 0;
     bool gameOver = false;
     bool gameWon = false;
-    bool vulnerable, no_turbo, livesDowntime = true;
+    bool vulnerable, no_turbo = true;
     while(!WindowShouldClose()){
         if(!gameOver) {
             // process events
@@ -201,11 +181,11 @@ void mainGame(char p1Dir[]){
                 car_speed = dx/2;
             }
             if(IsKeyDown(KEY_A)) {
-                carP2.pos.x -= car2_speed;
+                car2.pos.x -= car2_speed;
             } else if(IsKeyDown(KEY_D)) {
-                carP2.pos.x += car2_speed;
+                car2.pos.x += car2_speed;
             } else if(IsKeyDown(KEY_W)) {
-                carP2.pos.y -= car2_speed;
+                car2.pos.y -= car2_speed;
             } else if(IsKeyDown(KEY_S)) {
                 car2_speed = dx/2;
             }
@@ -216,8 +196,8 @@ void mainGame(char p1Dir[]){
                 {
                     if (!shoot[i].active && shootRate % 40 == 0)
                     {
-                        shoot[i].rect.x = carP1.pos.x+12;
-                        shoot[i].rect.y = carP1.pos.y;
+                        shoot[i].rect.x = carP1.pos.x;
+                        shoot[i].rect.y = carP1.pos.y - carP1.tex.height-1;
                         shoot[i].active = true;
                         break;
                     }
@@ -240,79 +220,55 @@ void mainGame(char p1Dir[]){
                 }
             }
 
-            for(int i = 0; i < sizeof(hole_pos)/sizeof(hole_pos[0]); i++) {
-                hole_pos[i].y += car_speed;
-                if(hole_pos[i].y > HEIGHT) {
-                    hole_pos[i].y = -thole.height;
+            for(int i = 0; i < sizeof(cars_pos)/sizeof(cars_pos[0]); i++) {
+                cars_pos[i].y += car_speed;
+                if(cars_pos[i].y > HEIGHT) {
+                    cars_pos[i].y = -tcars.height;
                     int randnum = rand()%3+1;
                     if(randnum == 1) {
-                        hole_pos[i].x = WIDTH/3 + WIDTH/18 - thole.width/12;
+                        cars_pos[i].x = WIDTH/3 + WIDTH/18 - tcars.width/12;
                     } else if(randnum == 2) {
-                        hole_pos[i].x = WIDTH/2 - thole.width/12;
+                        cars_pos[i].x = WIDTH/2 - tcars.width/12;
                     } else {
-                        hole_pos[i].x = WIDTH*2/3 - WIDTH/18 - thole.width/12;
+                        cars_pos[i].x = WIDTH*2/3 - WIDTH/18 - tcars.width/12;
                     }
-                    hole_speed[i] = 2;
+                    cars_speed[i] = 2;
                 }
-                Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width-10, carP1.tex.height };
-                Rectangle rec2 = { hole_pos[i].x, hole_pos[i].y, thole.width/6, thole.height };
+                Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
+                Rectangle rec2 = { cars_pos[i].x, cars_pos[i].y, tcars.width/6, tcars.height };
                 if(CheckCollisionRecs(rec1, rec2)) {
                     if(vulnerable) {
                         lives -= 1;
                         vulnerable = false;
                     }
+
                 }
             }
 
 
-            for(int i = 0; i < sizeof(turbo_pos)/sizeof(turbo_pos[0]); i++) {
-                turbo_pos[i].y += car_speed;
-                if(turbo_pos[i].y > HEIGHT) {
-                    turbo_pos[i].y = -tturbo.height;
+            for(int i = 0; i < sizeof(cars_pos2)/sizeof(cars_pos2[0]); i++) {
+                cars_pos2[i].y += car_speed;
+                if(cars_pos2[i].y > HEIGHT) {
+                    cars_pos2[i].y = -tcars2.height;
                     int randnum2 = rand()%3+1;
                     if(randnum2 == 1) {
-                        turbo_pos[i].x = WIDTH/3 + WIDTH/18 - tturbo.width/12;
+                        cars_pos2[i].x = WIDTH/3 + WIDTH/18 - tcars2.width/12;
                     }
                     else if(randnum2 == 2) {
-                        turbo_pos[i].x = WIDTH/2 - tturbo.width/12;
+                        cars_pos2[i].x = WIDTH/2 - tcars2.width/12;
                     }
                     else {
-                        turbo_pos[i].x = WIDTH*2/3 - WIDTH/18 - tturbo.width/12;
+                        cars_pos2[i].x = WIDTH*2/3 - WIDTH/18 - tcars2.width/12;
                     }
-                    turbo_speed[i] = 2;
+                    cars_speed2[i] = 2;
                 }
                 Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
-                Rectangle rec3 = { turbo_pos[i].x, turbo_pos[i].y, tturbo.width/6, tturbo.height };
+                Rectangle rec3 = { cars_pos2[i].x, cars_pos2[i].y, tcars2.width/6, tcars2.height };
                 if(CheckCollisionRecs(rec1, rec3)) {
                     if(no_turbo) {
                         no_turbo = false;
                     }
 
-                }
-            }
-
-            for(int i = 0; i < sizeof(heart_pos)/sizeof(heart_pos[0]); i++) {
-                heart_pos[i].y += car_speed;
-                if(heart_pos[i].y > HEIGHT) {
-                    heart_pos[i].y = -theart.height;
-                    int randnum2 = rand()%3+1;
-                    if(randnum2 == 1) {
-                        heart_pos[i].x = WIDTH/3 + WIDTH/18 - theart.width/12;
-                    }
-                    else if(randnum2 == 2) {
-                        heart_pos[i].x = WIDTH/2 - theart.width/12;
-                    }
-                    else {
-                        heart_pos[i].x = WIDTH*2/3 - WIDTH/18 - theart.width/12;
-                    }
-                    heart_speed[i] = 2;
-                }
-                Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
-                Rectangle rec4 = { heart_pos[i].x, heart_pos[i].y, theart.width/6, theart.height };
-                if(CheckCollisionRecs(rec1, rec4)) {
-                    if(livesDowntime) {
-                        livesDowntime = false;
-                    }
                 }
             }
 
@@ -333,26 +289,13 @@ void mainGame(char p1Dir[]){
                     no_turbo_time = 0;
                 }
             }
-            if(!livesDowntime) {
-                livesDowntimeTime += GetFrameTime();
-                if(livesDowntimeTime > 1) {
-                    if (lives == 7){
-                        lives = 7;
-                    }
-                    else {
-                        lives += 1;
-                    }
-                    livesDowntime = true;
-                    livesDowntimeTime = 0;
-                }
-            }
 
 
             if(lives <= 0) {
                 gameOver = true;
             }
 
-            if(carP1.pos.x+10 < WIDTH/3 || carP1.pos.x + carP1.tex.width-10 > WIDTH*2/3) {
+            if(carP1.pos.x < WIDTH/3 || carP1.pos.x + carP1.tex.width > WIDTH*2/3) {
                 car_speed=dx/2;
             }
             else {
@@ -390,26 +333,22 @@ void mainGame(char p1Dir[]){
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
         }
         if(!no_turbo) {
+
             car_speed = dx*2;
         }
-
         if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
-            DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, col);
+            DrawTexture(car2.tex, car2.pos.x, car2.pos.y, col);
         } else {
-            DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
+            DrawTexture(car2.tex, car2.pos.x, car2.pos.y, WHITE);
         }
 
-        for(int i = 0; i < 2; i++) {
-            DrawTextureRec(thole, srect_hole[i], hole_pos[i], WHITE);
+        for(int i = 0; i < 4; i++) {
+            DrawTextureRec(tcars, srect_cars[i], cars_pos[i], WHITE);
         }
         for(int i = 0; i < 2; i++) {
-            DrawTextureRec(tturbo, srect_turbo[i], turbo_pos[i], WHITE);
+            DrawTextureRec(tcars2, srect_cars2[i], cars_pos2[i], WHITE);
         }
-        for(int i = 0; i < 1; i++) {
-            DrawTextureRec(theart, srect_heart[i], heart_pos[i], WHITE);
-        }
-
         for (int i = 0; i < NUM_SHOOTS; i++)
         {
             if (shoot[i].active)
@@ -463,9 +402,8 @@ void mainGame(char p1Dir[]){
         EndDrawing();
     }
 
-    UnloadTexture(thole);
+    UnloadTexture(tcars);
     UnloadTexture(ttrees);
-    UnloadTexture(theart);
     UnloadTexture(carP1.tex);
     CloseWindow();
 }
@@ -565,6 +503,7 @@ selectCar(){
             }
         }
 
+
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -603,7 +542,6 @@ selectCar(){
 
 int main(void) {
 
-    //mainGame();
     selectCar();
     return 0;
 }
