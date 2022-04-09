@@ -24,9 +24,11 @@ static Shoot shoot[NUM_SHOOTS];
 
 
 void mainGame(char p1Dir[]){
+
+
     const int WIDTH = 480;
     const int HEIGHT = 640;
-    int diffy = 0;
+
 
     srand(time(NULL));
 
@@ -42,11 +44,12 @@ void mainGame(char p1Dir[]){
     carP1.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
+    //int diffy = 50;
     Sprite carP2;
-    carP2.tex = LoadTexture("..\\res\\car.png");
+    carP2.tex = LoadTexture("..\\res\\car2.png");
     carP2.pos.x = WIDTH/2 - carP2.tex.width/2+50;
-    carP2.pos.y = HEIGHT*3/5;
-    int car2_speed = 4;
+    carP2.pos.y = HEIGHT*3/5 ;
+    //int car2_speed = 4;
 
     int dx = 4;
 
@@ -178,15 +181,12 @@ void mainGame(char p1Dir[]){
         heart_speed[i] = 2;
     }
 
-
-
-
     // dark screen
     Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
     int lives = 3;
     int score = 0;
-    double time = 0;
+    double time, gameTimer = 0;
     double vulnerable_time, no_turbo_time, livesDowntimeTime = 0;
     bool gameOver = false;
     bool gameWon = false;
@@ -201,7 +201,7 @@ void mainGame(char p1Dir[]){
             } else if(IsKeyDown(KEY_DOWN)) {
                 car_speed = dx/2;
             }
-            if(IsKeyDown(KEY_A)) {
+            /*if(IsKeyDown(KEY_A)) {
                 carP2.pos.x -= car2_speed;
             } else if(IsKeyDown(KEY_D)) {
                 carP2.pos.x += car2_speed;
@@ -209,7 +209,7 @@ void mainGame(char p1Dir[]){
                 carP2.pos.y -= car2_speed;
             } else if(IsKeyDown(KEY_S)) {
                 car2_speed = dx/2;
-            }
+            }*/
 
             if (IsKeyDown(KEY_SPACE))
             { shootRate += 5;
@@ -312,6 +312,12 @@ void mainGame(char p1Dir[]){
                 Rectangle rec4 = { heart_pos[i].x, heart_pos[i].y, theart.width/6, theart.height };
                 if(CheckCollisionRecs(rec1, rec4)) {
                     if(livesDowntime) {
+                        if (lives == 5){
+                            lives = 5;
+                        }
+                        else {
+                            lives += 1;
+                        }
                         livesDowntime = false;
                     }
                 }
@@ -337,12 +343,6 @@ void mainGame(char p1Dir[]){
             if(!livesDowntime) {
                 livesDowntimeTime += GetFrameTime();
                 if(livesDowntimeTime > 1) {
-                    if (lives == 7){
-                        lives = 7;
-                    }
-                    else {
-                        lives += 1;
-                    }
                     livesDowntime = true;
                     livesDowntimeTime = 0;
                 }
@@ -355,12 +355,14 @@ void mainGame(char p1Dir[]){
 
             if(carP1.pos.x+10 < WIDTH/3 || carP1.pos.x + carP1.tex.width-10 > WIDTH*2/3) {
                 car_speed=dx/2;
+                carP2.pos.y -= 4;
             }
             else {
                 car_speed = dx;
             }
 
             time += GetFrameTime();
+            gameTimer += GetFrameTime();
             if(time > 1) {
                 score++;
                 time = 0;
@@ -368,6 +370,14 @@ void mainGame(char p1Dir[]){
 
             if(score > 999) {
                 gameWon = true;
+                gameOver = true;
+            }
+
+            if(gameTimer > 60 && carP1.pos.y < carP2.pos.y){
+                gameWon = true;
+                gameOver = true;
+            }
+            else if(gameTimer > 60 && carP1.pos.y >= carP2.pos.y){
                 gameOver = true;
             }
         }
@@ -387,17 +397,24 @@ void mainGame(char p1Dir[]){
             Color col = { 0, 0, 0, 100 };
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, col);
             car_speed = dx/2;
+            carP2.pos.y -= 4;
+
         } else {
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
         }
         if(!no_turbo) {
             car_speed = dx*2;
+            carP2.pos.y += 4;
         }
 
-        if(!vulnerable) {
+        /*if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, col);
         } else {
+            DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
+        }*/
+
+        if(1){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }
 
@@ -471,7 +488,7 @@ void mainGame(char p1Dir[]){
     CloseWindow();
 }
 
-selectCar(){
+void selectCar(){
     const int WIDTH = 840;
     const int HEIGHT = 480;
 
@@ -602,9 +619,60 @@ selectCar(){
 
 }
 
+void loadingPage(){
+    const int WIDTH = 840;
+    const int HEIGHT = 480;
+
+    // init
+    InitWindow(WIDTH, HEIGHT, "POLE POSITION");
+
+    SetTargetFPS(60);
+
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        // Update
+        //----------------------------------------------------------------------------------
+
+        if (IsKeyPressed(KEY_P) || IsGestureDetected(GESTURE_TAP))
+        {
+
+            CloseWindow();
+            selectCar();
+        }
+
+
+
+
+        //----------------------------------------------------------------------------------
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+
+        DrawRectangle(0, 0, WIDTH, HEIGHT, BLUE);
+        //DrawText("ELIJA UN AUTO", 20, 20, 40, LIGHTGRAY);
+        DrawText("CARGANDO...", 290, 220, 25, BLACK);
+
+
+        EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+
+    //UnloadTexture(car1.tex);
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+
+}
+
 int main(void) {
 
-    //mainGame();
-    selectCar();
+//    mainGame();
+//    selectCar();
+    loadingPage();
     return 0;
 }
