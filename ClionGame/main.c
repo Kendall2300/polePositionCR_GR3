@@ -45,7 +45,7 @@ void mainGame(char p1Dir[]){
     Sprite carP2;
     carP2.tex = LoadTexture("..\\res\\car.png");
     carP2.pos.x = WIDTH/2 - carP2.tex.width/2+50;
-    carP2.pos.y = HEIGHT*3/5 + ;
+    carP2.pos.y = HEIGHT*3/5;
     int car2_speed = 4;
 
     int dx = 4;
