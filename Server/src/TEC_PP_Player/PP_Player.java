@@ -1,41 +1,19 @@
 package TEC_PP_Player;
 
-public class PP_Player {
-    int id;
-    int vidas;
-    int score;
-    boolean is_alive;
-    int car_speed;
-    boolean bulletHit=false;
-
-    public int idSet(int num){
-        return id+=num;
-    }
-    public int getId(){
-        return id;
-    }
-    public int getVidas(){
-        return vidas;
-    }
-    public void updateVidas(){
-        this.vidas--;
-    }
-    public void setIs_dead(){
-        if (vidas == 0){
-            is_alive=false;
-        }
-    }
-    public boolean getIs_alive(){
-        return is_alive;
-    }
-    public int getScore(){
-        return score;
-    }
-    public void bulletHit(boolean hited){
-        if (hited==true){
-            updateVidas();
-        }else{
-
-        }
+/**
+ * @author kendall Martinez Carvajal kendallmc@estduaintec.cr
+ */
+public class PP_Player extends PP_Jugadores{
+    /**
+     * Este es el metodo constructor de PP_Player
+     * el cual inmediatamente inicializa todos las variables como 0
+     */
+    public PP_Player(){
+        this.inicio=0;
+        this.vidas=0;
+        this.score=0;
+        this.x_pos=0;
+        this.y_pos=0;
+        this.diferencia_y=0;
     }
 }
