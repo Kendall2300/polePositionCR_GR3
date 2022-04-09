@@ -97,10 +97,10 @@ void mainGame(char p1Dir[]){
 
     // creating items, randomizing positions of items
     Texture2D thole = LoadTexture("..\\res\\cars.png");
-    Rectangle srect_hole[4];
-    Vector2 hole_pos[4];
-    float hole_speed[4] = { 0 };
-    for(int i = 0; i < 4; i++) {
+    Rectangle srect_hole[2];
+    Vector2 hole_pos[2];
+    float hole_speed[2] = { 0 };
+    for(int i = 0; i < 2; i++) {
         srect_hole[i].width = 16;
         srect_hole[i].height = 16;
         srect_hole[i].x = i*srect_hole[i].width;
@@ -151,10 +151,10 @@ void mainGame(char p1Dir[]){
     }
 
     Texture2D theart = LoadTexture("..\\res\\heart.png");
-    Rectangle srect_heart[2];
-    Vector2 heart_pos[2];
-    float heart_speed[2] = { 0 };
-    for(int i = 0; i < 2; i++) {
+    Rectangle srect_heart[1];
+    Vector2 heart_pos[1];
+    float heart_speed[1] = { 0 };
+    for(int i = 0; i < 1; i++) {
         srect_heart[i].width = 16;
         srect_heart[i].height = 16;
         srect_heart[i].x = i*srect_heart[i].width;
@@ -186,10 +186,10 @@ void mainGame(char p1Dir[]){
     int lives = 3;
     int score = 0;
     double time = 0;
-    double vulnerable_time, no_turbo_time = 0;
+    double vulnerable_time, no_turbo_time, livesDowntimeTime = 0;
     bool gameOver = false;
     bool gameWon = false;
-    bool vulnerable, no_turbo = true;
+    bool vulnerable, no_turbo, livesDowntime = true;
     while(!WindowShouldClose()){
         if(!gameOver) {
             // process events
@@ -310,10 +310,9 @@ void mainGame(char p1Dir[]){
                 Rectangle rec1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width, carP1.tex.height };
                 Rectangle rec4 = { heart_pos[i].x, heart_pos[i].y, theart.width/6, theart.height };
                 if(CheckCollisionRecs(rec1, rec4)) {
-                    if(no_turbo) {
-                        no_turbo = false;
+                    if(livesDowntime) {
+                        livesDowntime = false;
                     }
-
                 }
             }
 
@@ -332,6 +331,19 @@ void mainGame(char p1Dir[]){
                 if(no_turbo_time > 1) {
                     no_turbo = true;
                     no_turbo_time = 0;
+                }
+            }
+            if(!livesDowntime) {
+                livesDowntimeTime += GetFrameTime();
+                if(livesDowntimeTime > 1) {
+                    if (lives == 7){
+                        lives = 7;
+                    }
+                    else {
+                        lives += 1;
+                    }
+                    livesDowntime = true;
+                    livesDowntimeTime = 0;
                 }
             }
 
@@ -380,6 +392,7 @@ void mainGame(char p1Dir[]){
         if(!no_turbo) {
             car_speed = dx*2;
         }
+
         if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, col);
@@ -387,14 +400,14 @@ void mainGame(char p1Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 2; i++) {
             DrawTextureRec(thole, srect_hole[i], hole_pos[i], WHITE);
         }
         for(int i = 0; i < 2; i++) {
             DrawTextureRec(tturbo, srect_turbo[i], turbo_pos[i], WHITE);
         }
-        for(int i = 0; i < 2; i++) {
-            DrawTextureRec(tturbo, srect_turbo[i], turbo_pos[i], WHITE);
+        for(int i = 0; i < 1; i++) {
+            DrawTextureRec(theart, srect_heart[i], heart_pos[i], WHITE);
         }
 
         for (int i = 0; i < NUM_SHOOTS; i++)
@@ -452,6 +465,7 @@ void mainGame(char p1Dir[]){
 
     UnloadTexture(thole);
     UnloadTexture(ttrees);
+    UnloadTexture(theart);
     UnloadTexture(carP1.tex);
     CloseWindow();
 }
