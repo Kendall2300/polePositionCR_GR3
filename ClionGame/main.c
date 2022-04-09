@@ -4,6 +4,8 @@
 #include <time.h>
 #include <raylib.h>
 #include <string.h>
+#include <winsock2.h>
+#define LIMITE 50
 
 typedef struct Sprite {
     Texture2D tex;
@@ -462,6 +464,7 @@ void mainGame(char p1Dir[]){
         char actLives[12] = { " " };
         char timeLeft[12] = { " " };
         char goText[12] = { " " };
+
         sprintf(scoring, "Score: %d", score);
         DrawText(scoring, 10, 5, 30, WHITE);
 
@@ -475,8 +478,15 @@ void mainGame(char p1Dir[]){
             sprintf(goText, "Go!");
             DrawText(goText, WIDTH/2-30, HEIGHT/2-20, 40, WHITE);
         }
+        char scoringtxt[12] = { " " };
+        char actLivestxt[12] = { " " };
+        char timeLefttxt[12] = { " " };
+        sprintf(scoringtxt, "%d", score);
+        sprintf(actLivestxt, "%d ", lives);
+        sprintf(timeLefttxt, "%d", gameTimer);
 
-        const char* filename = "out.txt";
+
+        const char* filename = "..\\Server\\src\\Variables\\out.txt";
 
         FILE* output_file = fopen(filename, "w+");
         if (!output_file) {
@@ -484,13 +494,24 @@ void mainGame(char p1Dir[]){
             exit(EXIT_FAILURE);
         }
 
-        fwrite(scoring, 1, strlen(scoring), output_file);
+        fwrite(scoringtxt, 1, strlen(scoring), output_file);
         fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(actLives, 1, strlen(scoring), output_file);
-
-
-
+        fwrite(actLivestxt, 1, strlen(scoring), output_file);
+        fwrite(str2, 1, strlen(str2), output_file);
+        fwrite(timeLefttxt, 1, strlen(scoring), output_file);
         fclose(output_file);
+
+        //Lectura
+        char cadena1 [LIMITE];     char cadena2 [LIMITE];
+        char cadena3 [LIMITE];
+        FILE* fichero;
+        fichero = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
+        fgets (cadena1, LIMITE, fichero);
+        fgets (cadena2, LIMITE, fichero);
+        fgets (cadena3, LIMITE, fichero);
+        fclose(fichero);
+        puts(cadena1);
+        puts(cadena2);
 
         if(gameOver) {
             Color color = { 0, 0, 0, 180 };
@@ -689,11 +710,65 @@ void loadingPage(){
     //--------------------------------------------------------------------------------------
 
 }
+char SendBuff[512],RecvBuff[512];
+
+int cliente(){
+
+    WSADATA wsaData;
+    SOCKET conn_socket;
+    struct sockaddr_in server;
+    struct hostent *hp;
+    int resp;
+
+    //Inicializamos la DLL de sockets
+    resp=WSAStartup(MAKEWORD(1,0),&wsaData);
+    if(resp){
+        printf("Error al inicializar socket\n");
+        getchar();return -1;
+    }
+
+    //Obtenemos la IP del servidor... en este caso
+    // localhost indica nuestra propia máquina...
+    hp=(struct hostent *)gethostbyname("localhost");
+
+    if(!hp){
+        printf("No se ha encontrado servidor...\n");
+        getchar();WSACleanup();return WSAGetLastError();
+    }
+
+    // Creamos el socket...
+    conn_socket=socket(AF_INET,SOCK_STREAM, 0);
+    if(conn_socket==INVALID_SOCKET) {
+        printf("Error al crear socket\n");
+        getchar();WSACleanup();return WSAGetLastError();
+    }
+
+    memset(&server, 0, sizeof(server)) ;
+    memcpy(&server.sin_addr, hp->h_addr, hp->h_length);
+    server.sin_family = hp->h_addrtype;
+    server.sin_port = htons(9300);
+
+
+    // Nos conectamos con el servidor...
+    if(connect(conn_socket,(struct sockaddr *)&server,sizeof(server))==SOCKET_ERROR){
+        printf("Fallo al conectarse con el servidor\n");
+        closesocket(conn_socket);
+        WSACleanup();getchar();return WSAGetLastError();
+    }
+    printf("Conexion establecida con: %s\n", inet_ntoa(server.sin_addr));
+
+
+    // Cerramos el socket y liberamos la DLL de sockets
+    closesocket(conn_socket);
+    WSACleanup();
+    return EXIT_SUCCESS;
+}
 
 int main(void) {
 
 //    mainGame();
 //    selectCar();
+    cliente();
     loadingPage();
     return 0;
 }
