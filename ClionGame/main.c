@@ -185,8 +185,8 @@ void mainGame(char p1Dir[]){
     Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
     int lives = 3;
-    int score = 0;
-    double time, gameTimer = 0;
+    int score = 0, gameTimer = 60;
+    double timeScore = 0;
     double vulnerable_time, no_turbo_time, livesDowntimeTime = 0;
     bool gameOver = false;
     bool gameWon = false;
@@ -228,7 +228,14 @@ void mainGame(char p1Dir[]){
             {
                 if (shoot[i].active)
                 {
-                    shoot[i].rect.y += shoot[i].speed.y;
+                    Rectangle recP2 = { carP2.pos.x, carP2.pos.y, carP2.tex.width-10, carP2.tex.height };
+                    if(CheckCollisionRecs(recP2, shoot[i].rect)) {
+                        shoot[i].active = false;
+                        score += 250;
+                    }
+                    else {
+                        shoot[i].rect.y += shoot[i].speed.y;
+                    }
                 }
             }
 
@@ -324,8 +331,6 @@ void mainGame(char p1Dir[]){
             }
 
 
-
-
             if(!vulnerable) {
                 vulnerable_time += GetFrameTime();
                 if(vulnerable_time > 1) {
@@ -361,24 +366,32 @@ void mainGame(char p1Dir[]){
                 car_speed = dx;
             }
 
-            time += GetFrameTime();
-            gameTimer += GetFrameTime();
-            if(time > 1) {
+            timeScore += GetFrameTime();
+            if(timeScore > 1) {
                 score++;
-                time = 0;
+                gameTimer--;
+                timeScore = 0;
             }
 
-            if(score > 999) {
+            if(score > 99999) {
                 gameWon = true;
                 gameOver = true;
             }
 
-            if(gameTimer > 60 && carP1.pos.y < carP2.pos.y){
-                gameWon = true;
-                gameOver = true;
-            }
-            else if(gameTimer > 60 && carP1.pos.y >= carP2.pos.y){
-                gameOver = true;
+//          TODO:Cambiar para que ganador se defina por scores
+            if(gameTimer <= 0 && carP1.pos.y < carP2.pos.y){
+                if (carP1.pos.y < carP2.pos.y){
+                    score += 2000;
+                    gameWon = true;
+                    gameOver = true;
+                }
+                if (carP1.pos.y >= carP2.pos.y){
+                    score += 1000;
+                    gameOver = true;
+                }
+                else {
+                    gameOver = true;
+                }
             }
         }
 
@@ -446,11 +459,22 @@ void mainGame(char p1Dir[]){
 
         const char *str2 = "\n";
         char scoring[12] = { " " };
-        sprintf(scoring, "%d", score);
-        DrawText(scoring, 10, 0, 60, WHITE);
+        char actLives[12] = { " " };
+        char timeLeft[12] = { " " };
+        char goText[12] = { " " };
+        sprintf(scoring, "Score: %d", score);
+        DrawText(scoring, 10, 5, 30, WHITE);
 
-        sprintf(scoring, "%d", lives);
-        DrawText(scoring, WIDTH-50, 0, 60, WHITE);
+        sprintf(actLives, "Lives: %d", lives);
+        DrawText(actLives, WIDTH-120, 5, 30, WHITE);
+
+        sprintf(timeLeft, "Time: %d", gameTimer);
+        DrawText(timeLeft, 10, HEIGHT-35, 30, WHITE);
+
+        if (gameTimer > 59){
+            sprintf(goText, "Go!");
+            DrawText(goText, WIDTH/2-30, HEIGHT/2-20, 40, WHITE);
+        }
 
         const char* filename = "out.txt";
 
@@ -462,7 +486,7 @@ void mainGame(char p1Dir[]){
 
         fwrite(scoring, 1, strlen(scoring), output_file);
         fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(scoring, 1, strlen(scoring), output_file);
+        fwrite(actLives, 1, strlen(scoring), output_file);
 
 
 
@@ -640,9 +664,6 @@ void loadingPage(){
             selectCar();
         }
 
-
-
-
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -653,7 +674,7 @@ void loadingPage(){
 
         DrawRectangle(0, 0, WIDTH, HEIGHT, BLUE);
         //DrawText("ELIJA UN AUTO", 20, 20, 40, LIGHTGRAY);
-        DrawText("CARGANDO...", 290, 220, 25, BLACK);
+        DrawText("CARGANDO... (PRESIONE P)", 290, 220, 25, BLACK);
 
 
         EndDrawing();
