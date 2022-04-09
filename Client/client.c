@@ -40,12 +40,6 @@ int main(){
     server.sin_family = hp->h_addrtype;
     server.sin_port = htons(9300);
 
-    if( bind(conn_socket,(struct sockaddr *)&server , sizeof(server)) < 0)
-    {
-        perror("bind failed");
-        return 1;
-    }
-
     // Nos conectamos con el servidor...
     if(connect(conn_socket,(struct sockaddr *)&server,sizeof(server))==SOCKET_ERROR){
         printf("Fallo al conectarse con el servidor\n");
@@ -53,19 +47,6 @@ int main(){
         WSACleanup();getchar();return WSAGetLastError();
     }
     printf("Conexion establecida con: %s\n", inet_ntoa(server.sin_addr));
-
-    strcpy(SendBuff,"Hola");
-    //Enviamos y recibimos datos...
-    printf("Enviando Mensaje... \n");
-    send(conn_socket,SendBuff,sizeof(SendBuff),0);
-    printf("Datos enviados: %s \n", SendBuff);
-    //fflush(conn_socket);
-
-    printf("Recibiendo Mensaje... \n");
-    recv(conn_socket,RecvBuff, sizeof(RecvBuff), 0);
-    printf("Datos recibidos: %s \n", RecvBuff);
-
-    getchar();
 
     // Cerramos el socket y liberamos la DLL de sockets
     closesocket(conn_socket);
