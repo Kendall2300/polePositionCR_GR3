@@ -7,6 +7,12 @@
 #include <winsock2.h>
 #define LIMITE 50
 
+/**
+ * @authors Gabriel Cerdas Chinchilla gabocerdas@estudiantec.cr; Daniel Ureña Lopez dlurena24@estudiantec.cr
+ */
+
+
+
 typedef struct Sprite {
     Texture2D tex;
     Vector2 pos;
@@ -25,6 +31,10 @@ static int shootRate;
 static Shoot shoot[NUM_SHOOTS];
 
 //--PLAYER 1-----------------------------------------------------------------------------------------------------------
+/**
+ * Esta función se encarga de declarar la logica de uso del carro 1, lo hace recibiendo
+ * datos del servidor mediante la lectura de archivos de texto y los asigna según su uso
+ */
 void mainGameP1(char p1Dir[]){
     const int WIDTH = 480;
     const int HEIGHT = 640;
@@ -618,7 +628,10 @@ void mainGameP1(char p1Dir[]){
 }
 
 /*---Player 2-------------------------------------------------------------------------------------------------------------------------------*/
-
+/**
+ * Esta función se encarga de declarar la logica de uso del carro 2, lo hace recibiendo
+ * datos del servidor mediante la lectura de archivos de texto y los asigna según su uso
+ */
 void mainGameP2(char p2Dir[]){
     const int WIDTH = 480;
     const int HEIGHT = 640;
@@ -1228,7 +1241,10 @@ void mainGameP2(char p2Dir[]){
     UnloadTexture(carP2.tex);
     CloseWindow();
 }
-
+/**
+ * Esta función se encarga de asignar un carro al jugador, este ya sea el 1 o el 2
+ * @param playerID sirve para identificar que jugador tomo que color de carro
+ */
 void selectCar(int playerID){
     const int WIDTH = 840;
     const int HEIGHT = 480;
@@ -1379,7 +1395,10 @@ void selectCar(int playerID){
     //--------------------------------------------------------------------------------------
 
 }
-
+/**
+ * Esta función se encarga de declarar la visualizacion y funcion de la pagina de carga
+ * esta asemeja un lobby para esperar a los demas jugadores.
+ */
 void loadingPage(){
     const int WIDTH = 840;
     const int HEIGHT = 480;
@@ -1461,7 +1480,9 @@ void loadingPage(){
 
 }
 char SendBuff[512],RecvBuff[512];
-
+/**
+ * Esta función se encarga de conectar el cliente a un servidor previamente ejecutado en java
+ */
 int cliente(){
 
     WSADATA wsaData;
@@ -1513,7 +1534,10 @@ int cliente(){
     WSACleanup();
     return EXIT_SUCCESS;
 }
-
+/**
+ * Esta función se encarga de llamar al cliente para realizar la conexion y despues empieza el juego por
+ * la sala de espera
+ */
 int main(void) {
 
 //    mainGame();
