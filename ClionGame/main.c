@@ -195,25 +195,7 @@ void mainGameP1(char p1Dir[]){
     bool gameWon = false;
     bool vulnerable, no_turbo, livesDowntime = true;
     while(!WindowShouldClose()){
-        //Lectura variables carro 1
-        char inicio_1_txt [LIMITE];
-        char vidas_1_txt [LIMITE];
-        char score_1_txt [LIMITE];
-        char xpos_1_txt [LIMITE];
-        char ypos_1_txt [LIMITE];
-        char turbo_1_txt [LIMITE];
-        char hueco_1_txt [LIMITE];
-        char pasto_1_txt [LIMITE];
-        FILE* fichero1r;
-        fichero1r = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
-        fgets (inicio_1_txt, LIMITE, fichero1r);
-        fgets (vidas_1_txt, LIMITE, fichero1r);
-        fgets (score_1_txt, LIMITE, fichero1r);
-        fgets (xpos_1_txt, LIMITE, fichero1r);
-        fgets (ypos_1_txt, LIMITE, fichero1r);
-        fgets (hueco_1_txt, LIMITE, fichero1r);
-        fgets (pasto_1_txt, LIMITE, fichero1r);
-        fclose(fichero1r);
+
 
         //Lectura variables carro 2
         char inicio_2_txt [LIMITE];
@@ -383,13 +365,16 @@ void mainGameP1(char p1Dir[]){
                 if(vulnerable_time > 1) {
                     vulnerable = true;
                     vulnerable_time = 0;
+                    Hueco_txt1 =1;
                 }
             }
+
             if(!no_turbo) {
                 no_turbo_time += GetFrameTime();
                 if(no_turbo_time > 1) {
                     no_turbo = true;
                     no_turbo_time = 0;
+                    Turbo_txt1 = 1;
                 }
             }
             if(!livesDowntime) {
@@ -397,6 +382,7 @@ void mainGameP1(char p1Dir[]){
                 if(livesDowntimeTime > 1) {
                     livesDowntime = true;
                     livesDowntimeTime = 0;
+
                 }
             }
 
@@ -404,13 +390,18 @@ void mainGameP1(char p1Dir[]){
             if(lives <= 0) {
                 gameOver = true;
             }
-
+            int nopastotxt1 = atoi(pasto_2_txt);
+            if (nopastotxt1 == 2) {
+                carP1.pos.y += 4;
+            }
             if(carP1.pos.x+10 < WIDTH/3 || carP1.pos.x + carP1.tex.width-10 > WIDTH*2/3) {
                 car_speed=dx/2;
                 carP2.pos.y -= 4;
+                Past_txt1 = 2;
             }
             else {
                 car_speed = dx;
+                Past_txt1=1;
             }
 
             timeScore += GetFrameTime();
@@ -464,19 +455,30 @@ void mainGameP1(char p1Dir[]){
         DrawRectangle(WIDTH/3, 0, WIDTH/3, HEIGHT, GRAY);
         DrawRectangle(WIDTH/3 + WIDTH/9 - 1, 0, 2, HEIGHT, BLACK);
         DrawRectangle(WIDTH/3 + WIDTH*2/9 - 1, 0, 2, HEIGHT, BLACK);
-
+        int no_huecotxt = atoi(hueco_2_txt);
+        if(no_huecotxt == 2) {
+            carP2.pos.y += 4;
+        }
         if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, col);
             car_speed = dx/2;
             carP2.pos.y -= 4;
+            Turbo_txt1 = 2;
 
         } else {
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
         }
+
+        int no_turbotxt = atoi(turbo_2_txt);
+        if(no_turbotxt == 2){
+            carP2.pos.y -= 4;
+        }
+
         if(!no_turbo) {
             car_speed = dx*2;
             carP2.pos.y += 4;
+            Turbo_txt1 = 2;
         }
 
         /*if(!vulnerable) {
@@ -486,10 +488,10 @@ void mainGameP1(char p1Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }*/
 
-        int aaaa = xpos_2_txt+'0';
-        int aaaaa = ypos_2_txt+'0';
+        int aaaa = atoi(xpos_2_txt);
+        int aaaaa = atoi(ypos_2_txt);
         if(1){
-            DrawTexture(carP2.tex, aaaa, aaaaa, WHITE);
+            DrawTexture(carP2.tex, aaaa, carP2.pos.y, WHITE);
         }
 
         for(int i = 0; i < 2; i++) {
@@ -576,6 +578,9 @@ void mainGameP1(char p1Dir[]){
         fwrite(actPastotxt1, 1, strlen(scoring), fichero1w);
         fwrite(str2, 1, strlen(str2), fichero1w);
         fclose(fichero1w);
+
+
+
 
 
 
@@ -806,6 +811,8 @@ void mainGameP2(char p2Dir[]){
         fgets (hueco_1_txt, LIMITE, fichero1r);
         fgets (pasto_1_txt, LIMITE, fichero1r);
         fclose(fichero1r);
+        puts(xpos_1_txt);
+        puts(ypos_1_txt);
 
         //Lectura variables carro 2
         char inicio_2_txt [LIMITE];
@@ -970,6 +977,7 @@ void mainGameP2(char p2Dir[]){
                 if(vulnerable_time > 1) {
                     vulnerable = true;
                     vulnerable_time = 0;
+                    Hueco_txt2 =1;
                 }
             }
             if(!no_turbo) {
@@ -977,6 +985,7 @@ void mainGameP2(char p2Dir[]){
                 if(no_turbo_time > 1) {
                     no_turbo = true;
                     no_turbo_time = 0;
+                    Turbo_txt2= 1;
                 }
             }
             if(!livesDowntime) {
@@ -991,14 +1000,19 @@ void mainGameP2(char p2Dir[]){
             if(lives <= 0) {
                 gameOver = true;
             }
-
+            int nopastotxt2 = atoi(pasto_1_txt);
+            if (nopastotxt2 == 2){
+                carP1.pos.y += 4;
+            }
 //          Movimiento zacate
             if(carP2.pos.x+10 < WIDTH/3 || carP2.pos.x + carP2.tex.width-10 > WIDTH*2/3) {
                 car_speed=dx/2;
                 carP1.pos.y -= 4;
+                Past_txt2 =2;
             }
             else {
                 car_speed = dx;
+                Past_txt2 = 1;
             }
 
             timeScore += GetFrameTime();
@@ -1052,19 +1066,28 @@ void mainGameP2(char p2Dir[]){
         DrawRectangle(WIDTH/3, 0, WIDTH/3, HEIGHT, GRAY);
         DrawRectangle(WIDTH/3 + WIDTH/9 - 1, 0, 2, HEIGHT, BLACK);
         DrawRectangle(WIDTH/3 + WIDTH*2/9 - 1, 0, 2, HEIGHT, BLACK);
-
+        int nohuecotxt2 = atoi(hueco_1_txt);
+        if (nohuecotxt2==2){
+            carP1.pos.y += 4;
+        }
         if(!vulnerable) {
             Color col = { 0, 0, 0, 100 };
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, col);
             car_speed = dx/2;
             carP1.pos.y -= 4;
+            Turbo_txt2=2;
 
         } else {
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }
+        int noturbotxt2 = atoi(turbo_1_txt);
+        if (noturbotxt2==2){
+            carP1.pos.y -= 4;
+        }
         if(!no_turbo) {
             car_speed = dx*2;
             carP1.pos.y += 4;
+            Turbo_txt2 = 2;
         }
 
         /*if(!vulnerable) {
@@ -1074,8 +1097,10 @@ void mainGameP2(char p2Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }*/
 
+        int xtxt = atoi(xpos_1_txt);
+        int ytxt = atoi(ypos_1_txt);
         if(1){
-            DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
+            DrawTexture(carP1.tex, xtxt, carP1.pos.y, WHITE);
         }
 
         for(int i = 0; i < 2; i++) {
