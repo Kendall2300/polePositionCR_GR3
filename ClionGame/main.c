@@ -197,6 +197,7 @@ void mainGameP1(char p1Dir[]){
     while(!WindowShouldClose()){
 
 
+
         //Lectura variables carro 2
         char inicio_2_txt [LIMITE];
         char vidas_2_txt [LIMITE];
@@ -216,6 +217,8 @@ void mainGameP1(char p1Dir[]){
         fgets (hueco_2_txt, LIMITE, fichero2r);
         fgets (pasto_2_txt, LIMITE, fichero2r);
         fclose(fichero2r);
+        int aaaa = atoi(xpos_2_txt);
+        int aaaaa = atoi(ypos_2_txt);
 
 
         if(!gameOver) {
@@ -404,6 +407,9 @@ void mainGameP1(char p1Dir[]){
                 Past_txt1=1;
             }
 
+
+
+
             timeScore += GetFrameTime();
             if(timeScore > 1) {
                 scoreP++;
@@ -468,6 +474,7 @@ void mainGameP1(char p1Dir[]){
 
         } else {
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
+
         }
 
         int no_turbotxt = atoi(turbo_2_txt);
@@ -488,8 +495,7 @@ void mainGameP1(char p1Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }*/
 
-        int aaaa = atoi(xpos_2_txt);
-        int aaaaa = atoi(ypos_2_txt);
+
         if(1){
             DrawTexture(carP2.tex, aaaa, carP2.pos.y, WHITE);
         }
@@ -782,7 +788,7 @@ void mainGameP2(char p2Dir[]){
     // dark screen
     Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
-    int Turbo_txt2=1, Hueco_txt2=1, Past_txt2 = 1;
+    int Turbo_txt2=1, Hueco_txt2=1, Past_txt2 = 1, Dify=0;
     int lives = 3;
     int scoreP1, scoreP2 = 0;
     int gameTimer = 60;
@@ -1508,7 +1514,8 @@ int main(void) {
 
 //    mainGame();
     //selectCar();
-//    cliente();
+
+    cliente();
      loadingPage();
     return 0;
 }
