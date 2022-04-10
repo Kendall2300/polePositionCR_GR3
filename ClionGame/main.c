@@ -486,8 +486,10 @@ void mainGameP1(char p1Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
         }*/
 
+        int aaaa = xpos_2_txt+'0';
+        int aaaaa = ypos_2_txt+'0';
         if(1){
-            DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
+            DrawTexture(carP2.tex, aaaa, aaaaa, WHITE);
         }
 
         for(int i = 0; i < 2; i++) {
@@ -1426,8 +1428,8 @@ int cliente(){
 int main(void) {
 
 //    mainGame();
-    selectCar();
+    //selectCar();
 //    cliente();
-//    loadingPage();
+     loadingPage();
     return 0;
 }
