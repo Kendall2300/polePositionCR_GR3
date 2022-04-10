@@ -40,7 +40,7 @@ void mainGameP1(char p1Dir[]){
 
     Sprite carP1;
     carP1.tex = LoadTexture(p1Dir);
-    carP1.pos.x = WIDTH/2 - carP1.tex.width/2-50;
+    carP1.pos.x = WIDTH/2 - carP1.tex.width/2-30;
     carP1.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
@@ -392,7 +392,7 @@ void mainGameP1(char p1Dir[]){
             }
             int nopastotxt1 = atoi(pasto_2_txt);
             if (nopastotxt1 == 2) {
-                carP1.pos.y += 4;
+                carP2.pos.y += 4;
             }
             if(carP1.pos.x+10 < WIDTH/3 || carP1.pos.x + carP1.tex.width-10 > WIDTH*2/3) {
                 car_speed=dx/2;
@@ -464,7 +464,7 @@ void mainGameP1(char p1Dir[]){
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, col);
             car_speed = dx/2;
             carP2.pos.y -= 4;
-            Turbo_txt1 = 2;
+            Hueco_txt1 = 2;
 
         } else {
             DrawTexture(carP1.tex, carP1.pos.x, carP1.pos.y, WHITE);
@@ -638,7 +638,7 @@ void mainGameP2(char p2Dir[]){
 
     Sprite carP2;
     carP2.tex = LoadTexture(p2Dir);
-    carP2.pos.x = WIDTH/2 - carP2.tex.width/2+50;
+    carP2.pos.x = WIDTH/2 - carP2.tex.width/2+30;
     carP2.pos.y = HEIGHT*3/5;
     int car_speed = 4;
 
@@ -1075,7 +1075,7 @@ void mainGameP2(char p2Dir[]){
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, col);
             car_speed = dx/2;
             carP1.pos.y -= 4;
-            Turbo_txt2=2;
+            Hueco_txt2=2;
 
         } else {
             DrawTexture(carP2.tex, carP2.pos.x, carP2.pos.y, WHITE);
@@ -1219,7 +1219,7 @@ void mainGameP2(char p2Dir[]){
     CloseWindow();
 }
 
-void selectCar(){
+void selectCar(int playerID){
     const int WIDTH = 840;
     const int HEIGHT = 480;
 
@@ -1283,7 +1283,12 @@ void selectCar(){
                 UnloadTexture(car4.tex);
                 UnloadTexture(selectSqr.tex);
                 CloseWindow();
-                mainGameP1("..\\res\\car1.png");
+                if(playerID == 1){
+                    mainGameP1("..\\res\\car1.png");
+                }
+                if(playerID == 2){
+                    mainGameP2("..\\res\\car1.png");
+                }
             }
             if(selectSqr.pos.x == WIDTH*2/6){
                 UnloadTexture(car1.tex);
@@ -1292,7 +1297,12 @@ void selectCar(){
                 UnloadTexture(car4.tex);
                 UnloadTexture(selectSqr.tex);
                 CloseWindow();
-                mainGameP2("..\\res\\car2.png");
+                if(playerID == 1){
+                    mainGameP1("..\\res\\car2.png");
+                }
+                if(playerID == 2){
+                    mainGameP2("..\\res\\car2.png");
+                }
             }
             if(selectSqr.pos.x == WIDTH*3/6){
                 UnloadTexture(car1.tex);
@@ -1301,7 +1311,12 @@ void selectCar(){
                 UnloadTexture(car4.tex);
                 UnloadTexture(selectSqr.tex);
                 CloseWindow();
-//                mainGame("..\\res\\car3.png");
+                if(playerID == 1){
+                    mainGameP1("..\\res\\car3.png");
+                }
+                if(playerID == 2){
+                    mainGameP2("..\\res\\car3.png");
+                }
             }
             if(selectSqr.pos.x == WIDTH*4/6){
                 UnloadTexture(car1.tex);
@@ -1310,7 +1325,12 @@ void selectCar(){
                 UnloadTexture(car4.tex);
                 UnloadTexture(selectSqr.tex);
                 CloseWindow();
-//                mainGame("..\\res\\car4.png");
+                if(playerID == 1){
+                    mainGameP1("..\\res\\car4.png");
+                }
+                if(playerID == 2){
+                    mainGameP2("..\\res\\car4.png");
+                }
             }
         }
 
@@ -1357,18 +1377,48 @@ void loadingPage(){
     // init
     InitWindow(WIDTH, HEIGHT, "POLE POSITION");
 
+    Sprite selectSqr;
+
     SetTargetFPS(60);
+
+    selectSqr.tex = LoadTexture("..\\res\\selecting.png");
+    selectSqr.pos.x = WIDTH*1/3-40;
+    selectSqr.pos.y = HEIGHT/2 - selectSqr.tex.height/2;
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
 
-        if (IsKeyPressed(KEY_P) || IsGestureDetected(GESTURE_TAP))
+        /*if (IsKeyPressed(KEY_P) || IsGestureDetected(GESTURE_TAP))
         {
 
             CloseWindow();
             selectCar();
+        }*/
+
+        if (IsKeyPressed(KEY_LEFT) || IsGestureDetected(GESTURE_TAP))
+        {
+            selectSqr.pos.x = WIDTH*1/3-40;
+        }
+
+        if (IsKeyPressed(KEY_RIGHT) || IsGestureDetected(GESTURE_TAP))
+        {
+
+            selectSqr.pos.x = WIDTH*2/3-30;
+        }
+
+        if (IsKeyPressed(KEY_P) || IsGestureDetected(GESTURE_TAP)) {
+            if (selectSqr.pos.x == WIDTH*1/3-40) {
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                selectCar(1);
+            }
+            if (selectSqr.pos.x == WIDTH*2/3-30) {
+                UnloadTexture(selectSqr.tex);
+                CloseWindow();
+                selectCar(2);
+            }
         }
 
         //----------------------------------------------------------------------------------
@@ -1378,10 +1428,14 @@ void loadingPage(){
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-
         DrawRectangle(0, 0, WIDTH, HEIGHT, BLUE);
-        //DrawText("ELIJA UN AUTO", 20, 20, 40, LIGHTGRAY);
-        DrawText("CARGANDO... (PRESIONE P)", 290, 220, 25, BLACK);
+
+        DrawText("ELIJA UN JUGADOR (Y PRESIONA P)", 20, 20, 40, LIGHTGRAY);
+        DrawText("P1", WIDTH*1/3, HEIGHT/2-30, 60, LIGHTGRAY);
+        DrawText("P2", WIDTH*2/3, HEIGHT/2-30, 60, LIGHTGRAY);
+
+        DrawTexture(selectSqr.tex, selectSqr.pos.x, selectSqr.pos.y, WHITE);
+//        DrawText("CARGANDO... (PRESIONE P)", 290, 220, 25, BLACK);
 
 
         EndDrawing();
