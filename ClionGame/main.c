@@ -263,7 +263,7 @@ void mainGameP1(char p1Dir[]){
                     Rectangle recP2 = { carP2.pos.x, carP2.pos.y, carP2.tex.width-10, carP2.tex.height };
                     if(CheckCollisionRecs(recP2, shoot[i].rect)) {
                         shoot[i].active = false;
-                        scoreP += 250;
+                        scoreP += 100;
                     }
                     else {
                         shoot[i].rect.y += shoot[i].speed.y;
@@ -356,6 +356,7 @@ void mainGameP1(char p1Dir[]){
                         }
                         else {
                             lives += 1;
+                            scoreP += 3;
                         }
                         livesDowntime = false;
                     }
@@ -378,6 +379,7 @@ void mainGameP1(char p1Dir[]){
                     no_turbo = true;
                     no_turbo_time = 0;
                     Turbo_txt1 = 1;
+                    scoreP += 2;
                 }
             }
             if(!livesDowntime) {
@@ -878,7 +880,7 @@ void mainGameP2(char p2Dir[]){
                     Rectangle recP1 = { carP1.pos.x, carP1.pos.y, carP1.tex.width-10, carP1.tex.height };
                     if(CheckCollisionRecs(recP1, shoot[i].rect)) {
                         shoot[i].active = false;
-                        scoreP2 += 250;
+                        scoreP2 += 100;
                     }
                     else {
                         shoot[i].rect.y += shoot[i].speed.y;
@@ -971,6 +973,7 @@ void mainGameP2(char p2Dir[]){
                         }
                         else {
                             lives += 1;
+                            scoreP2 += 3;
                         }
                         livesDowntime = false;
                     }
@@ -992,6 +995,7 @@ void mainGameP2(char p2Dir[]){
                     no_turbo = true;
                     no_turbo_time = 0;
                     Turbo_txt2= 1;
+                    scoreP2 += 2;
                 }
             }
             if(!livesDowntime) {
