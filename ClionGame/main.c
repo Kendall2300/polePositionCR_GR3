@@ -184,6 +184,7 @@ void mainGameP1(char p1Dir[]){
     // dark screen
     Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
+    int Turbo_txt1=1, Hueco_txt1=1, Past_txt1=1;
     int lives = 3;
     int scoreP = 0;
     int scoreP2 = 0;
@@ -194,6 +195,47 @@ void mainGameP1(char p1Dir[]){
     bool gameWon = false;
     bool vulnerable, no_turbo, livesDowntime = true;
     while(!WindowShouldClose()){
+        //Lectura variables carro 1
+        char inicio_1_txt [LIMITE];
+        char vidas_1_txt [LIMITE];
+        char score_1_txt [LIMITE];
+        char xpos_1_txt [LIMITE];
+        char ypos_1_txt [LIMITE];
+        char turbo_1_txt [LIMITE];
+        char hueco_1_txt [LIMITE];
+        char pasto_1_txt [LIMITE];
+        FILE* fichero1r;
+        fichero1r = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
+        fgets (inicio_1_txt, LIMITE, fichero1r);
+        fgets (vidas_1_txt, LIMITE, fichero1r);
+        fgets (score_1_txt, LIMITE, fichero1r);
+        fgets (xpos_1_txt, LIMITE, fichero1r);
+        fgets (ypos_1_txt, LIMITE, fichero1r);
+        fgets (hueco_1_txt, LIMITE, fichero1r);
+        fgets (pasto_1_txt, LIMITE, fichero1r);
+        fclose(fichero1r);
+
+        //Lectura variables carro 2
+        char inicio_2_txt [LIMITE];
+        char vidas_2_txt [LIMITE];
+        char score_2_txt [LIMITE];
+        char xpos_2_txt [LIMITE];
+        char ypos_2_txt [LIMITE];
+        char turbo_2_txt [LIMITE];
+        char hueco_2_txt [LIMITE];
+        char pasto_2_txt [LIMITE];
+        FILE* fichero2r;
+        fichero2r = fopen("..\\Server\\src\\Variables\\out2.txt", "rt");
+        fgets (inicio_2_txt, LIMITE, fichero2r);
+        fgets (vidas_2_txt, LIMITE, fichero2r);
+        fgets (score_2_txt, LIMITE, fichero2r);
+        fgets (xpos_2_txt, LIMITE, fichero2r);
+        fgets (ypos_2_txt, LIMITE, fichero2r);
+        fgets (hueco_2_txt, LIMITE, fichero2r);
+        fgets (pasto_2_txt, LIMITE, fichero2r);
+        fclose(fichero2r);
+
+
         if(!gameOver) {
             // process events
             if(IsKeyDown(KEY_LEFT)) {
@@ -493,40 +535,51 @@ void mainGameP1(char p1Dir[]){
             sprintf(goText, "Go!");
             DrawText(goText, WIDTH/2-30, HEIGHT/2-20, 40, WHITE);
         }
-        char scoringtxt[12] = { " " };
-        char actLivestxt[12] = { " " };
-        char timeLefttxt[12] = { " " };
-        sprintf(scoringtxt, "%d", scoreP);
-        sprintf(actLivestxt, "%d ", lives);
-        sprintf(timeLefttxt, "%d", gameTimer);
-
-
-        const char* filename = "..\\Server\\src\\Variables\\out.txt";
-
-        FILE* output_file = fopen(filename, "w+");
-        if (!output_file) {
+        //Escritura txt carro 1
+        char iniciotxt1[12] ={ " "};
+        char actLivestxt1[12] = { " " };
+        char scoringtxt1[12] = { " " };
+        char actXpostxt1[12] ={ " "};
+        char actYpostxt1[12] ={ " "};
+        char actTurbotxt1[12] ={ " "};
+        char actHuecotxt1[12] ={ " "};
+        char actPastotxt1[12] ={ " "};
+        sprintf(actLivestxt1, "%d ", lives);
+        sprintf(scoringtxt1, "%d", scoreP);
+        sprintf(actXpostxt1, "%f", carP1.pos.x);
+        sprintf(actYpostxt1, "%f", carP1.pos.y);
+        sprintf(actTurbotxt1, "%d", Turbo_txt1);
+        sprintf(actHuecotxt1, "%d", Hueco_txt1);
+        sprintf(actPastotxt1, "%d", Past_txt1);
+        const char* filename1w = "..\\Server\\src\\Variables\\out.txt";
+        FILE* fichero1w = fopen(filename1w, "w+");
+        if (!fichero1w) {
             perror("fopen");
             exit(EXIT_FAILURE);
         }
+        fwrite(iniciotxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actLivestxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(scoringtxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actXpostxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actYpostxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actTurbotxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actHuecotxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fwrite(actPastotxt1, 1, strlen(scoring), fichero1w);
+        fwrite(str2, 1, strlen(str2), fichero1w);
+        fclose(fichero1w);
 
-        fwrite(scoringtxt, 1, strlen(scoring), output_file);
-        fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(actLivestxt, 1, strlen(scoring), output_file);
-        fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(timeLefttxt, 1, strlen(scoring), output_file);
-        fclose(output_file);
 
-        //Lectura
-        char cadena1 [LIMITE];     char cadena2 [LIMITE];
-        char cadena3 [LIMITE];
-        FILE* fichero;
-        fichero = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
-        fgets (cadena1, LIMITE, fichero);
-        fgets (cadena2, LIMITE, fichero);
-        fgets (cadena3, LIMITE, fichero);
-        fclose(fichero);
-        puts(cadena1);
-        puts(cadena2);
+
+
+
+
 
         if(gameOver) {
             Color color = { 0, 0, 0, 180 };
@@ -722,6 +775,7 @@ void mainGameP2(char p2Dir[]){
     // dark screen
     Rectangle rmuteScreen = { 0, 0, WIDTH, HEIGHT };
 
+    int Turbo_txt2=1, Hueco_txt2=1, Past_txt2 = 1;
     int lives = 3;
     int scoreP1, scoreP2 = 0;
     int gameTimer = 60;
@@ -731,6 +785,45 @@ void mainGameP2(char p2Dir[]){
     bool gameWon = false;
     bool vulnerable, no_turbo, livesDowntime = true;
     while(!WindowShouldClose()){
+        //Lectura variables carro 1
+        char inicio_1_txt [LIMITE];
+        char vidas_1_txt [LIMITE];
+        char score_1_txt [LIMITE];
+        char xpos_1_txt [LIMITE];
+        char ypos_1_txt [LIMITE];
+        char turbo_1_txt [LIMITE];
+        char hueco_1_txt [LIMITE];
+        char pasto_1_txt [LIMITE];
+        FILE* fichero1r;
+        fichero1r = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
+        fgets (inicio_1_txt, LIMITE, fichero1r);
+        fgets (vidas_1_txt, LIMITE, fichero1r);
+        fgets (score_1_txt, LIMITE, fichero1r);
+        fgets (xpos_1_txt, LIMITE, fichero1r);
+        fgets (ypos_1_txt, LIMITE, fichero1r);
+        fgets (hueco_1_txt, LIMITE, fichero1r);
+        fgets (pasto_1_txt, LIMITE, fichero1r);
+        fclose(fichero1r);
+
+        //Lectura variables carro 2
+        char inicio_2_txt [LIMITE];
+        char vidas_2_txt [LIMITE];
+        char score_2_txt [LIMITE];
+        char xpos_2_txt [LIMITE];
+        char ypos_2_txt [LIMITE];
+        char turbo_2_txt [LIMITE];
+        char hueco_2_txt [LIMITE];
+        char pasto_2_txt [LIMITE];
+        FILE* fichero2r;
+        fichero2r = fopen("..\\Server\\src\\Variables\\out2.txt", "rt");
+        fgets (inicio_2_txt, LIMITE, fichero2r);
+        fgets (vidas_2_txt, LIMITE, fichero2r);
+        fgets (score_2_txt, LIMITE, fichero2r);
+        fgets (xpos_2_txt, LIMITE, fichero2r);
+        fgets (ypos_2_txt, LIMITE, fichero2r);
+        fgets (hueco_2_txt, LIMITE, fichero2r);
+        fgets (pasto_2_txt, LIMITE, fichero2r);
+        fclose(fichero2r);
         if(!gameOver) {
             // process events
             if(IsKeyDown(KEY_LEFT)) {
@@ -1036,32 +1129,47 @@ void mainGameP2(char p2Dir[]){
         sprintf(timeLefttxt, "%d", gameTimer);
 
 
-        const char* filename = "..\\Server\\src\\Variables\\out.txt";
-
-        FILE* output_file = fopen(filename, "w+");
-        if (!output_file) {
+//Escritura txt carro 2
+        char iniciotxt2[12] ={ " "};
+        char actLivestxt2[12] = { " " };
+        char scoringtxt2[12] = { " " };
+        char actXpostxt2[12] ={ " "};
+        char actYpostxt2[12] ={ " "};
+        char actTurbotxt2[12] ={ " "};
+        char actHuecotxt2[12] ={ " "};
+        char actPastotxt2[12] ={ " "};
+        sprintf(actLivestxt2, "%d ", lives);
+        sprintf(scoringtxt2, "%d", scoreP2);
+        sprintf(actXpostxt2, "%f", carP2.pos.x);
+        sprintf(actYpostxt2, "%f", carP2.pos.y);
+        sprintf(actTurbotxt2, "%d", Turbo_txt2);
+        sprintf(actHuecotxt2, "%d", Hueco_txt2);
+        sprintf(actPastotxt2, "%d", Past_txt2);
+        const char* filename2w = "..\\Server\\src\\Variables\\out2.txt";
+        FILE* fichero2w = fopen(filename2w, "w+");
+        if (!fichero2w) {
             perror("fopen");
             exit(EXIT_FAILURE);
         }
+        fwrite(iniciotxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actLivestxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(scoringtxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actXpostxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actYpostxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actTurbotxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actHuecotxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fwrite(actPastotxt2, 1, strlen(scoring), fichero2w);
+        fwrite(str2, 1, strlen(str2), fichero2w);
+        fclose(fichero2w);
 
-        fwrite(scoringtxt, 1, strlen(scoring), output_file);
-        fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(actLivestxt, 1, strlen(scoring), output_file);
-        fwrite(str2, 1, strlen(str2), output_file);
-        fwrite(timeLefttxt, 1, strlen(scoring), output_file);
-        fclose(output_file);
 
-        //Lectura
-        char cadena1 [LIMITE];     char cadena2 [LIMITE];
-        char cadena3 [LIMITE];
-        FILE* fichero;
-        fichero = fopen("..\\Server\\src\\Variables\\out.txt", "rt");
-        fgets (cadena1, LIMITE, fichero);
-        fgets (cadena2, LIMITE, fichero);
-        fgets (cadena3, LIMITE, fichero);
-        fclose(fichero);
-        puts(cadena1);
-        puts(cadena2);
 
         if(gameOver) {
             Color color = { 0, 0, 0, 180 };
